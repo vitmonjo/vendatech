@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Pagar Produto: {{ data.productName }}</h2>
+<div mat-dialog-content>
+  <p>Valor: R$ {{ data.productPrice | number : '1.2-2' }}</p>
+
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Número do Cartão</mat-label>
+      <input matInput formControlName="cardNumber" placeholder="0000 0000 0000 0000" />
+      <mat-error *ngIf="paymentForm.get('cardNumber')?.invalid"
+        >Número de 16 dígitos é obrigatório.</mat-error
+      >
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Validade</mat-label>
+        <input matInput formControlName="expiry" placeholder="MM/AA" />
+        <mat-error *ngIf="paymentForm.get('expiry')?.invalid">Formato MM/AA.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>CVV</mat-label>
+        <input matInput formControlName="cvv" placeholder="123" />
+        <mat-error *ngIf="paymentForm.get('cvv')?.invalid">CVV de 3 dígitos.</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="paymentForm.invalid" (click)="onSubmit()">
+    Pagar
+  </button>
+</div>

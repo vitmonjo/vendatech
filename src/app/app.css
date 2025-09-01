@@ -1,0 +1,114 @@
+/* app.css - Estilos específicos do componente App */
+.main-container {
+  min-height: calc(100vh - 64px);
+  padding: 2rem 1rem;
+}
+
+/* Tipografia moderna */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  margin-top: 0;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Cards modernos */
+.mat-card {
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm) !important;
+  transition: all var(--transition-normal);
+}
+
+.mat-card:hover {
+  box-shadow: var(--shadow-md) !important;
+  transform: translateY(-2px);
+}
+
+/* Botões modernos */
+.mat-raised-button {
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.25px;
+  transition: all var(--transition-fast);
+}
+
+.mat-raised-button:not([disabled]):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Formulários modernos */
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.08);
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: var(--azure-blue);
+}
+
+/* Tabelas modernas */
+.mat-table {
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.mat-header-cell {
+  font-weight: 600;
+  background-color: var(--azure-light-blue);
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Responsividade específica do app */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 1rem 0.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+}

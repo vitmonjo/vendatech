@@ -1,0 +1,42 @@
+<div class="product-form-container fade-in">
+  <h2>{{ isEditMode ? 'Editar Produto' : 'Adicionar Novo Produto' }}</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome do Produto</mat-label>
+      <input matInput formControlName="name" placeholder="Ex: Smartphone XYZ" required />
+      <mat-error *ngIf="productForm.get('name')?.invalid">
+        O nome do produto é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descrição</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Descreva as características do produto"
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Preço (R$)</mat-label>
+      <input matInput formControlName="price" type="number" min="0" step="0.01" required />
+      <mat-error *ngIf="productForm.get('price')?.invalid"> Informe um preço válido </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>URL da Imagem</mat-label>
+      <input matInput formControlName="image" placeholder="https://exemplo.com/imagem.jpg" />
+      <mat-hint>Cole o link para uma imagem do produto</mat-hint>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <a mat-button routerLink="/my-products">Cancelar</a>
+      <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
+        {{ isEditMode ? 'Salvar Alterações' : 'Adicionar Produto' }}
+      </button>
+    </div>
+  </form>
+</div>

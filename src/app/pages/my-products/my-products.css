@@ -1,0 +1,220 @@
+.my-products-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.my-products-container h2 {
+  color: var(--azure-black);
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.actions a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  padding: 0 1.5rem;
+  transition: all var(--transition-fast);
+}
+
+.actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
+}
+
+/* Estilização da tabela */
+table.mat-table {
+  width: 100%;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  background-color: var(--azure-white);
+}
+
+table.mat-table:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Cabeçalho da tabela */
+.mat-header-row {
+  background-color: var(--azure-light-blue);
+  height: 56px;
+}
+
+.mat-header-cell {
+  color: var(--azure-dark-blue);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Células da tabela */
+.mat-cell {
+  padding: 1rem 1rem;
+  color: var(--azure-dark-gray);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.mat-row {
+  height: 64px;
+  transition: background-color var(--transition-fast);
+}
+
+.mat-row:hover {
+  background-color: rgba(0, 120, 212, 0.04);
+}
+
+/* Coluna de preço */
+.mat-column-price {
+  font-weight: 600;
+  color: var(--azure-blue);
+}
+
+/* Coluna de ações */
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+/* Botões de ação */
+.mat-icon-button {
+  transition: all var(--transition-fast);
+  margin: 0 4px;
+}
+
+.mat-icon-button:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Botão editar */
+.mat-icon-button[color='accent']:hover {
+  background-color: rgba(255, 215, 64, 0.12);
+}
+
+/* Botão excluir */
+.mat-icon-button[color='warn']:hover {
+  background-color: rgba(244, 67, 54, 0.12);
+}
+
+/* Mensagem para tabela vazia */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--azure-gray);
+}
+
+.empty-state mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  color: var(--azure-gray);
+}
+
+.empty-state h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--azure-dark-gray);
+}
+
+.empty-state p {
+  margin: 0 0 1.5rem 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .my-products-container {
+    margin: 1rem auto;
+    padding: 0 0.5rem;
+  }
+
+  .my-products-container h2 {
+    font-size: 1.75rem;
+  }
+
+  .actions {
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    padding: 0.5rem;
+  }
+
+  /* Ocultar cabeçalhos em mobile e usar layout flex para células */
+  .mat-header-row {
+    display: none;
+  }
+
+  .mat-row {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .mat-cell {
+    padding: 0.5rem 0;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mat-cell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--azure-dark-blue);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  .mat-column-actions {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Animações para as linhas da tabela */
+.mat-row {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.mat-row:nth-child(odd) {
+  animation-delay: 0.05s;
+}
+
+.mat-row:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

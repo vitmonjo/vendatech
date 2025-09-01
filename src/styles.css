@@ -1,0 +1,127 @@
+/* styles.css - Tema Azure Moderno */
+:root {
+  --azure-blue: #0078d4;
+  --azure-dark-blue: #005a9e;
+  --azure-light-blue: #e3f2fd;
+  --azure-light-gray: #f8f9fa;
+  --azure-gray: #a19f9d;
+  --azure-dark-gray: #605e5c;
+  --azure-black: #252423;
+  --azure-white: #ffffff;
+  --azure-success: #107c10;
+  --azure-error: #d13438;
+  --azure-warning: #ffaa44;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--azure-light-gray);
+  color: var(--azure-black);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Navbar moderna */
+.navbar-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  height: 64px;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo a {
+  color: var(--azure-white);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mat-toolbar.mat-primary {
+  background-color: var(--azure-blue);
+}
+
+/* Utilidades */
+.text-center {
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
+}
+.mt-2 {
+  margin-top: 1rem;
+}
+.mt-3 {
+  margin-top: 1.5rem;
+}
+.mt-4 {
+  margin-top: 2rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+.mb-2 {
+  margin-bottom: 1rem;
+}
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .navbar-custom {
+    padding: 0 1rem;
+  }
+
+  .nav-links {
+    gap: 0.25rem;
+  }
+}
+
+/* Estados de foco acessíveis */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--azure-blue);
+  outline-offset: 2px;
+}

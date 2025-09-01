@@ -1,0 +1,29 @@
+<div class="home-container">
+  <section class="hero">
+    <h1>Bem-vindo à nossa loja!</h1>
+    <p>
+      Descubra produtos incríveis, de eletrônicos a itens para a casa. Encontre o que você precisa
+      ou cadastre seu próprio produto para vender.
+    </p>
+    <div class="hero-actions">
+      <a mat-raised-button color="primary" routerLink="/products">Ver Todos os Produtos</a>
+      <a mat-button routerLink="/my-products/new">Começar a Vender</a>
+    </div>
+  </section>
+
+  <section class="featured-products-section">
+    <h2>Produtos em Destaque</h2>
+    <div class="featured-products-grid">
+      <mat-card *ngFor="let product of featuredProducts" class="product-card">
+        <img mat-card-image [src]="product.image" alt="Imagem do produto" />
+        <mat-card-header>
+          <mat-card-title>{{ product.name }}</mat-card-title>
+          <mat-card-subtitle>R$ {{ product.price | number : '1.2-2' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions class="card-actions">
+          <a mat-button [routerLink]="['/products', product.id]">Ver Detalhes</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </section>
+</div>

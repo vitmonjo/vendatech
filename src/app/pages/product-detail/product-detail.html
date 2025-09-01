@@ -1,0 +1,39 @@
+<div *ngIf="product" class="product-detail-container">
+  <mat-card class="product-card">
+    <div class="product-header">
+      <img class="product-image" [src]="product.image" alt="Imagem do Produto" />
+    </div>
+    <mat-card-content>
+      <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <p class="price">R$ {{ product.price | number : '1.2-2' }}</p>
+        <p>{{ product.description }}</p>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="product-actions">
+      <button mat-raised-button color="primary" (click)="buyNow()">Comprar Agora</button>
+      <button mat-button color="accent" (click)="addToCart()">Adicionar ao Carrinho</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="message-card">
+    <h3>Fazer uma pergunta ao vendedor</h3>
+    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sua mensagem</mat-label>
+        <textarea matInput formControlName="content" rows="4"></textarea>
+        <mat-error *ngIf="messageForm.get('content')?.invalid">
+          A mensagem é obrigatória.
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="messageForm.invalid">
+        Enviar Mensagem
+      </button>
+    </form>
+  </mat-card>
+</div>
+
+<div *ngIf="!product" class="no-product-message">
+  <p>Produto não encontrado.</p>
+</div>
