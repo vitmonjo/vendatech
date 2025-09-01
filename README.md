@@ -110,7 +110,7 @@ As imagens dos produtos estavam com tamanhos inconsistentes e o layout da págin
 
 <img width="1919" height="1049" alt="Captura de tela 2025-08-31 213229" src="https://github.com/user-attachments/assets/9549128c-99bd-40d0-8ba5-d0107478dc59" />
 
-<img width="1919" height="1046" alt="Captura de tela 2025-08-31 213250" src="https://github.com/user-attachments/assets/aae8039d-3b90-4a63-a7c2-260f4937efe7" />
+<img width="1919" height="1059" alt="Captura de tela 2025-08-31 213212" src="https://github.com/user-attachments/assets/0c91555d-2a01-454c-9cc9-94dbce492939" />
 
 
 #### 🏠 Página Inicial (Home)
