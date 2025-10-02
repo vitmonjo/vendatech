@@ -1,4 +1,13 @@
-// Backend - VendaTech
-// Este arquivo será desenvolvido pela equipe de backend
+const app = require('./src/app');
+const connectDB = require('./src/config/database');
 
-console.log('VendaTech Backend server starting...');
+// Conectar ao banco de dados
+connectDB();
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 VendaTech Backend rodando na porta ${PORT}`);
+  console.log(`📊 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🌐 API: http://localhost:${PORT}/api`);
+});
