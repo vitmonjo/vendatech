@@ -40,3 +40,13 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Backend specific
+backend/node_modules/
+backend/.env
+backend/logs/
+backend/uploads/
+
+# Frontend specific (already covered by Angular defaults)
+frontend/dist/
+frontend/.angular/
