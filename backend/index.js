@@ -1,4 +1,4 @@
-// Backend - Sales App
+// Backend - VendaTech
 // Este arquivo será desenvolvido pela equipe de backend
 
-console.log('Backend server starting...');
+console.log('VendaTech Backend server starting...');

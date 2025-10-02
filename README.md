@@ -1,11 +1,11 @@
-# 🛒 Sales App - Sistema de Vendas
+# 🛒 VendaTech - Sistema de Vendas
 
 Sistema completo de e-commerce com frontend Angular e backend Node.js.
 
 ## 📁 Estrutura do Projeto
 
 ```
-salesapp-angular-material/
+vendatech/
 ├── frontend/          # Aplicação Angular (Equipe Frontend)
 │   ├── src/
 │   ├── package.json

@@ -1,6 +1,6 @@
-# Sales App - Backend
+# VendaTech - Backend
 
-Backend API para o sistema de vendas Sales App.
+Backend API para o sistema de vendas VendaTech.
 
 ## 🚀 Tecnologias
 

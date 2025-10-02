@@ -1,9 +1,9 @@
-# 🚀 Guia de Desenvolvimento - Sales App
+# 🚀 Guia de Desenvolvimento - VendaTech
 
 ## 📁 Estrutura do Projeto
 
 ```
-salesapp-angular-material/
+vendatech/
 ├── frontend/          # 👥 Equipe Frontend (Angular)
 ├── backend/           # 👥 Equipe Backend (Node.js)
 └── README.md

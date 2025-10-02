@@ -1,7 +1,7 @@
 {
-  "name": "sales-app-backend",
+  "name": "vendatech-backend",
   "version": "1.0.0",
-  "description": "Backend API para Sales App",
+  "description": "Backend API para VendaTech",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
