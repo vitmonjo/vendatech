@@ -24,12 +24,12 @@ export class MyProducts implements OnInit {
   }
 
   getProducts(): void {
-    this.productService.getProducts().subscribe((products) => {
-      this.products = products;
+    this.productService.getProducts().subscribe((response) => {
+      this.products = response.data.products;
     });
   }
 
-  deleteProduct(id: number): void {
+  deleteProduct(id: string): void {
     if (confirm('Tem certeza que deseja excluir esse produto?')) {
       this.productService.deleteProduct(id).subscribe(() => {
         this.getProducts(); // Atualiza lista após exclusão

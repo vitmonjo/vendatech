@@ -22,19 +22,21 @@ export class ProductForm implements OnInit {
   private productService = inject(ProductService);
 
   isEditMode = false;
-  productId: number | null = null;
+  productId: string | null = null;
 
   productForm = this.fb.group({
-    id: [0],
+    _id: [''],
     name: ['', Validators.required],
     description: [''],
     price: [0, [Validators.required, Validators.min(0)]],
     image: [''],
+    category: [''],
+    stock: [0, [Validators.required, Validators.min(0)]],
   });
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.productId = Number(params.get('id'));
+      this.productId = params.get('id');
       if (this.productId) {
         this.isEditMode = true;
         this.loadProduct(this.productId);
@@ -42,24 +44,24 @@ export class ProductForm implements OnInit {
     });
   }
 
-  loadProduct(id: number): void {
-    this.productService.getProductById(id).subscribe((product) => {
-      this.productForm.patchValue(product);
+  loadProduct(id: string): void {
+    this.productService.getProductById(id).subscribe((response) => {
+      this.productForm.patchValue(response.data.product);
     });
   }
 
   onSubmit(): void {
     if (this.productForm.valid) {
-      const product = this.productForm.value as Product;
+      const product = this.productForm.value as Partial<Product>;
 
-      if (this.isEditMode && product.id) {
-        this.productService.updateProduct(product).subscribe(() => {
+      if (this.isEditMode && this.productId) {
+        this.productService.updateProduct(this.productId, product).subscribe(() => {
           this.router.navigate(['/my-products']);
         });
       } else {
-        // Remove o id para a criação de novo produto
-        const {id, ...newProduct} = product;
-        this.productService.addProduct(newProduct as Product).subscribe(() => {
+        // Remove o _id para a criação de novo produto
+        const {_id, ...newProduct} = product;
+        this.productService.addProduct(newProduct as Omit<Product, '_id'>).subscribe(() => {
           this.router.navigate(['/my-products']);
         });
       }

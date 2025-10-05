@@ -21,7 +21,7 @@
           <mat-card-subtitle>R$ {{ product.price | number : '1.2-2' }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions class="card-actions">
-          <a mat-button [routerLink]="['/products', product.id]">Ver Detalhes</a>
+          <a mat-button [routerLink]="['/products', product._id]">Ver Detalhes</a>
         </mat-card-actions>
       </mat-card>
     </div>
