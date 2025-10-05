@@ -1,13 +1,37 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Product {
-  id?: number;
+  _id?: string;
   name: string;
   description: string;
   price: number;
   image: string;
+  category: string;
+  stock: number;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ProductResponse {
+  success: boolean;
+  data: {
+    products: Product[];
+    pagination?: {
+      current: number;
+      pages: number;
+      total: number;
+    };
+  };
+}
+
+export interface SingleProductResponse {
+  success: boolean;
+  data: {
+    product: Product;
+  };
 }
 
 @Injectable({
@@ -15,25 +39,37 @@ export interface Product {
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/products';
+  private apiUrl = 'http://localhost:5000/api/products';
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  getProducts(category?: string, search?: string, page: number = 1, limit: number = 10): Observable<ProductResponse> {
+    let params: any = { page, limit };
+    if (category && category !== 'all') params.category = category;
+    if (search) params.search = search;
+
+    return this.http.get<ProductResponse>(this.apiUrl, { params });
   }
 
-  addProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  getProductById(id: string): Observable<SingleProductResponse> {
+    return this.http.get<SingleProductResponse>(`${this.apiUrl}/${id}`);
   }
 
-  updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${product.id}`, product);
+  addProduct(product: Omit<Product, '_id'>): Observable<SingleProductResponse> {
+    return this.http.post<SingleProductResponse>(this.apiUrl, product, { headers: this.getAuthHeaders() });
   }
 
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  updateProduct(id: string, product: Partial<Product>): Observable<SingleProductResponse> {
+    return this.http.put<SingleProductResponse>(`${this.apiUrl}/${id}`, product, { headers: this.getAuthHeaders() });
+  }
+
+  deleteProduct(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 }

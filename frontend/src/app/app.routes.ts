@@ -7,6 +7,8 @@ import { ProductForm } from './pages/product-form/product-form';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Cart } from './pages/cart/cart';
+import { Admin } from './pages/admin/admin';
+import { Profile } from './pages/profile/profile';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -15,8 +17,10 @@ export const routes: Routes = [
   { path: 'my-products', component: MyProducts },
   { path: 'my-products/new', component: ProductForm },
   { path: 'my-products/edit/:id', component: ProductForm },
+  { path: 'admin', component: Admin },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
   { path: 'cart', component: Cart },
+  { path: 'profile', component: Profile },
   { path: '**', redirectTo: '' }, // Rota curinga para redirecionar para a home
 ];
