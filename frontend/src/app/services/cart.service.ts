@@ -5,6 +5,7 @@ import { Product } from './product.service';
 
 export interface CartItem extends Product {
   quantity: number;
+  id?: string;
 }
 
 @Injectable({
@@ -16,7 +17,7 @@ export class CartService {
 
   addToCart(product: Product): void {
     const currentItems = this.cartItemsSubject.getValue();
-    const existingItem = currentItems.find((item) => item.id === product.id);
+    const existingItem = currentItems.find((item) => item._id === product._id);
 
     if (existingItem) {
       existingItem.quantity += 1;
@@ -26,9 +27,9 @@ export class CartService {
     this.cartItemsSubject.next(currentItems);
   }
 
-  updateQuantity(productId: number, change: number): void {
+  updateQuantity(productId: string, change: number): void {
     const currentItems = this.cartItemsSubject.getValue();
-    const item = currentItems.find((i) => i.id === productId);
+    const item = currentItems.find((i) => i._id === productId);
 
     if (item) {
       const newQuantity = item.quantity + change;
@@ -42,9 +43,9 @@ export class CartService {
     }
   }
 
-  removeFromCart(productId: number): void {
+  removeFromCart(productId: string): void {
     const currentItems = this.cartItemsSubject.getValue();
-    const updatedItems = currentItems.filter((item) => item.id !== productId);
+    const updatedItems = currentItems.filter((item) => item._id !== productId);
     this.cartItemsSubject.next(updatedItems);
   }
 

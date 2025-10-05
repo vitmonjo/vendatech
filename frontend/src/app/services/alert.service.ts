@@ -7,7 +7,7 @@ import { Product, ProductService } from './product.service';
 })
 export class AlertService {
   private productService = inject(ProductService);
-  private priceAlert = new Subject<{ productId: number; productName: string; price: number }>();
+  private priceAlert = new Subject<{ productId: string; productName: string; price: number }>();
   priceAlert$ = this.priceAlert.asObservable();
   private checkInterval: any;
 
@@ -22,13 +22,13 @@ export class AlertService {
   }
 
   checkPrices(): void {
-    this.productService.getProducts().subscribe((products) => {
+    this.productService.getProducts().subscribe((response) => {
       // Lógica de verificação de preço
       // Neste exemplo, vamos checar se algum produto custa menos de R$ 2000
-      products.forEach((product) => {
+      response.data.products.forEach((product) => {
         if (product.price < 2000) {
           this.priceAlert.next({
-            productId: product.id!,
+            productId: product._id!,
             productName: product.name,
             price: product.price,
           });
