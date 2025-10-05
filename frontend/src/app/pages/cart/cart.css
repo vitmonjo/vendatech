@@ -89,3 +89,18 @@ h2 {
 .cart-summary button {
   margin-left: 0.5rem;
 }
+
+.info-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.info-message mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}

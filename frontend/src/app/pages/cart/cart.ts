@@ -24,11 +24,11 @@ export class Cart implements OnInit {
     this.cartTotal$ = this.cartService.getCartTotal();
   }
 
-  updateQuantity(productId: number, change: number): void {
+  updateQuantity(productId: string, change: number): void {
     this.cartService.updateQuantity(productId, change);
   }
 
-  removeFromCart(productId: number): void {
+  removeFromCart(productId: string): void {
     this.cartService.removeFromCart(productId);
   }
 

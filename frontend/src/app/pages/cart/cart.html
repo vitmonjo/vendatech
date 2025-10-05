@@ -13,18 +13,18 @@
             <h3>{{ item.name }}</h3>
             <p class="price">R$ {{ item.price | number : '1.2-2' }}</p>
             <div class="quantity-control">
-              <button mat-icon-button (click)="updateQuantity(item.id!, -1)">
+              <button mat-icon-button (click)="updateQuantity(item._id!, -1)">
                 <mat-icon>remove</mat-icon>
               </button>
               <span>{{ item.quantity }}</span>
-              <button mat-icon-button (click)="updateQuantity(item.id!, 1)">
+              <button mat-icon-button (click)="updateQuantity(item._id!, 1)">
                 <mat-icon>add</mat-icon>
               </button>
             </div>
           </div>
         </div>
         <div class="item-actions">
-          <button mat-icon-button color="warn" (click)="removeFromCart(item.id!)">
+          <button mat-icon-button color="warn" (click)="removeFromCart(item._id!)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
@@ -32,8 +32,11 @@
 
       <mat-card class="cart-summary">
         <h3>Resumo do Pedido</h3>
-        <p>Total: **R$ {{ cartTotal$ | async | number : '1.2-2' }}**</p>
-        <button mat-raised-button color="primary">Finalizar Compra</button>
+        <p>Total: <strong>R$ {{ cartTotal$ | async | number : '1.2-2' }}</strong></p>
+        <p class="info-message">
+          <mat-icon>info</mat-icon>
+          Funcionalidade de pagamento será implementada em breve.
+        </p>
         <button mat-button color="warn" (click)="clearCart()">Limpar Carrinho</button>
       </mat-card>
     </div>
