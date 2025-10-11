@@ -12,6 +12,11 @@
   ],
   "env": {
     "API_URL": "https://seu-backend.vercel.app/api"
+  },
+  "functions": {
+    "app/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
   }
 }
 
