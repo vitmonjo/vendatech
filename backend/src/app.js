@@ -21,8 +21,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
-// Middleware para lidar com preflight requests
-app.options('*', cors());
+// CORS já configurado acima
 
 // Middleware de logging
 app.use(morgan('combined'));
