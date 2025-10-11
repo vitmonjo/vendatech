@@ -7,7 +7,7 @@ const path = require('path');
 console.log('🚀 Iniciando build de produção...');
 
 // URL da API do backend
-const apiUrl = 'https://vendatech-auq8mptr1-vitmonjo-3253s-projects.vercel.app/api';
+const apiUrl = 'https://vendatech-backend.onrender.com/api';
 
 console.log(`📡 API URL: ${apiUrl}`);
 
