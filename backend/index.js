@@ -4,10 +4,7 @@ const connectDB = require('./src/config/database');
 // Conectar ao banco de dados
 connectDB();
 
-const PORT = process.env.PORT || 5000;
+// Para Vercel, não precisamos de app.listen()
+// A Vercel gerencia isso automaticamente
 
-app.listen(PORT, () => {
-  console.log(`🚀 VendaTech Backend rodando na porta ${PORT}`);
-  console.log(`📊 Ambiente: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🌐 API: http://localhost:${PORT}/api`);
-});
+module.exports = app;
