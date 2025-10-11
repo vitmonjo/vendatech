@@ -4,9 +4,9 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 require('dotenv').config();
 
-// Importar rotas
-const authRoutes = require('./routes/auth');
-const productRoutes = require('./routes/products');
+// Importar rotas (comentadas temporariamente)
+// const authRoutes = require('./routes/auth');
+// const productRoutes = require('./routes/products');
 
 const app = express();
 
@@ -44,11 +44,7 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-// Rotas da API
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-
-// Rota de fallback para produtos (se o banco não estiver funcionando)
+// Rota de produtos (dados de teste - sempre funciona)
 app.get('/api/products', (req, res) => {
   res.json({
     success: true,
