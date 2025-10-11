@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://seu-backend.vercel.app/api'
+  apiUrl: 'https://vendatech-l6cuymgzr-vitmonjo-3253s-projects.vercel.app/api'
 };

@@ -11,7 +11,7 @@
     }
   ],
   "env": {
-    "API_URL": "https://seu-backend.vercel.app/api"
+    "API_URL": "https://vendatech-l6cuymgzr-vitmonjo-3253s-projects.vercel.app/api"
   },
   "functions": {
     "app/api/**/*.js": {
