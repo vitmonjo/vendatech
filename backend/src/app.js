@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+require('dotenv').config();
 
 // Importar rotas
 const authRoutes = require('./routes/auth');
@@ -43,27 +44,9 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-// Rota de teste para produtos (sem banco)
-app.get('/api/products', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Produtos carregados com sucesso',
-    data: {
-      products: [
-        {
-          _id: '1',
-          name: 'Produto Teste',
-          description: 'Descrição do produto teste',
-          price: 99.99,
-          category: 'teste'
-        }
-      ],
-      total: 1,
-      page: 1,
-      limit: 10
-    }
-  });
-});
+// Rotas da API
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 // Middleware de tratamento de erros
 app.use((err, req, res, next) => {

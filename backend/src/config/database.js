@@ -10,8 +10,10 @@ const connectDB = async () => {
     console.log(`MongoDB conectado: ${conn.connection.host}`);
   } catch (error) {
     console.error('Erro ao conectar com MongoDB:', error.message);
-    // Não matar o processo na Vercel, apenas logar o erro
-    console.error('Continuando sem conexão com o banco...');
+    // Em produção, não matar o processo
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    }
   }
 };
 
