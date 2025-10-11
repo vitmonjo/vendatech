@@ -6,8 +6,8 @@ const path = require('path');
 
 console.log('🚀 Iniciando build de produção...');
 
-// Obter a URL da API das variáveis de ambiente
-const apiUrl = process.env.API_URL || 'https://seu-backend.vercel.app/api';
+// URL da API do backend
+const apiUrl = 'https://vendatech-l6cuymgzr-vitmonjo-3253s-projects.vercel.app/api';
 
 console.log(`📡 API URL: ${apiUrl}`);
 
