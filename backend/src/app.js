@@ -30,9 +30,9 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Rotas
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
+// Rotas comentadas temporariamente
+// app.use('/api/auth', authRoutes);
+// app.use('/api/products', productRoutes);
 
 // Rota de teste
 app.get('/api/test', (req, res) => {
