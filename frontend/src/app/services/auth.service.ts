@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface User {
   id?: string;
@@ -37,7 +38,7 @@ export interface AuthResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   private currentUser = new BehaviorSubject<User | null>(null);

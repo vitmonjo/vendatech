@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build:prod",
+  "outputDirectory": "dist/sales-app/browser",
+  "installCommand": "npm install",
+  "framework": "angular",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "env": {
+    "API_URL": "https://seu-backend.vercel.app/api"
+  }
+}
+

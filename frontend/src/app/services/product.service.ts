@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Product {
   _id?: string;
@@ -39,7 +40,7 @@ export interface SingleProductResponse {
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api/products';
+  private apiUrl = `${environment.apiUrl}/products`;
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
