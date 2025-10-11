@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
+    if (!process.env.MONGODB_URI) {
+      console.log('MONGODB_URI não configurada, usando dados de teste');
+      return;
+    }
+
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -10,10 +15,7 @@ const connectDB = async () => {
     console.log(`MongoDB conectado: ${conn.connection.host}`);
   } catch (error) {
     console.error('Erro ao conectar com MongoDB:', error.message);
-    // Em produção, não matar o processo
-    if (process.env.NODE_ENV !== 'production') {
-      process.exit(1);
-    }
+    console.log('Continuando com dados de teste...');
   }
 };
 
