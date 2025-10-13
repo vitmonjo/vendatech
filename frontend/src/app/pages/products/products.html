@@ -1,15 +1,10 @@
 <div class="products-container">
-  <div class="products-header">
-    <h2>🛍️ Produtos à Venda</h2>
-    <p>Encontre os melhores produtos com os melhores preços!</p>
-  </div>
-
   <!-- Filtros -->
   <div class="filters-section">
     <div class="filters-row">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Buscar produtos</mat-label>
-        <input matInput [(ngModel)]="searchTerm" placeholder="Digite o nome do produto...">
+        <input matInput [(ngModel)]="searchTerm" placeholder="Digite o nome do produto..." />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
 
@@ -56,20 +51,25 @@
         <div *ngIf="product.stock > 0" class="stock-badge">Em estoque</div>
         <div *ngIf="product.stock === 0" class="stock-badge out-of-stock">Sem estoque</div>
       </div>
-      
+
       <mat-card-header>
         <mat-card-title>{{ product.name }}</mat-card-title>
-        <mat-card-subtitle class="price">R$ {{ product.price | number : '1.2-2' }}</mat-card-subtitle>
+        <mat-card-subtitle class="price"
+          >R$ {{ product.price | number : '1.2-2' }}</mat-card-subtitle
+        >
       </mat-card-header>
-      
+
       <mat-card-content>
-        <p class="product-description">{{ product.description | slice:0:100 }}{{ product.description.length > 100 ? '...' : '' }}</p>
+        <p class="product-description">
+          {{ product.description | slice : 0 : 100
+          }}{{ product.description.length > 100 ? '...' : '' }}
+        </p>
         <div class="product-stock">
           <mat-icon>inventory</mat-icon>
           <span>{{ product.stock }} unidades disponíveis</span>
         </div>
       </mat-card-content>
-      
+
       <mat-card-actions>
         <button mat-button color="primary" [routerLink]="['/products', product._id]">
           <mat-icon>visibility</mat-icon>
