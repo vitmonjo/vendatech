@@ -6,7 +6,7 @@ const Product = require('../models/Product');
 // @access  Public
 const getProducts = async (req, res) => {
   try {
-    const { category, search, page = 1, limit = 10 } = req.query;
+    const { category, search } = req.query;
     
     // Construir filtros
     const filters = {};
@@ -22,25 +22,14 @@ const getProducts = async (req, res) => {
       ];
     }
 
-    // Calcular paginação
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    
+    // Buscar todos os produtos sem paginação
     const products = await Product.find(filters)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(parseInt(limit));
-
-    const total = await Product.countDocuments(filters);
+      .sort({ createdAt: -1 });
 
     res.json({
       success: true,
       data: {
-        products,
-        pagination: {
-          current: parseInt(page),
-          pages: Math.ceil(total / parseInt(limit)),
-          total
-        }
+        products
       }
     });
   } catch (error) {

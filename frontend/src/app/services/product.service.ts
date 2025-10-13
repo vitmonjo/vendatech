@@ -50,8 +50,8 @@ export class ProductService {
     });
   }
 
-  getProducts(category?: string, search?: string, page: number = 1, limit: number = 10): Observable<ProductResponse> {
-    let params: any = { page, limit };
+  getProducts(category?: string, search?: string): Observable<ProductResponse> {
+    let params: any = {};
     if (category && category !== 'all') params.category = category;
     if (search) params.search = search;
 
