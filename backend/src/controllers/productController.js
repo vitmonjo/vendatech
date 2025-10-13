@@ -9,7 +9,7 @@ const getProducts = async (req, res) => {
     const { category, search, page = 1, limit = 10 } = req.query;
     
     // Construir filtros
-    const filters = { isActive: true };
+    const filters = {};
     
     if (category && category !== 'all') {
       filters.category = category;
