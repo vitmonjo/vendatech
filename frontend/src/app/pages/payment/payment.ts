@@ -54,13 +54,18 @@ export class Payment implements OnInit {
   }
 
   loadCartData(): void {
-    this.cartItems = this.cartService.getItems();
-    this.cartTotal = this.cartService.getTotal();
-    
-    if (this.cartItems.length === 0) {
-      this.snackBar.open('Carrinho vazio! Adicione produtos antes de finalizar a compra.', 'Fechar', { duration: 3000 });
-      this.router.navigate(['/cart']);
-    }
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+      
+      if (this.cartItems.length === 0) {
+        this.snackBar.open('Carrinho vazio! Adicione produtos antes de finalizar a compra.', 'Fechar', { duration: 3000 });
+        this.router.navigate(['/cart']);
+      }
+    });
+
+    this.cartService.getCartTotal().subscribe(total => {
+      this.cartTotal = total;
+    });
   }
 
   formatCardNumber(event: any): void {

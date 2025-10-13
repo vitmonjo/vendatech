@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://vendatech-backend.onrender.com/api'
+  apiUrl: 'https://seu-backend.vercel.app/api'
 };
