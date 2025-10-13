@@ -48,13 +48,5 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.2"
-  },
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "build:prod": "node scripts/build-prod.js",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
   }
 }
