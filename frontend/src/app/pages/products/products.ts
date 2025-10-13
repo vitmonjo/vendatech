@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -46,6 +47,7 @@ export class Products implements OnInit {
 
   private productService = inject(ProductService);
   private snackBar = inject(MatSnackBar);
+  private cartService = inject(CartService);
 
   ngOnInit(): void {
     this.loadProducts();
@@ -81,5 +83,22 @@ export class Products implements OnInit {
     this.searchTerm = '';
     this.selectedCategory = 'all';
     this.loadProducts();
+  }
+
+  addToCart(product: Product): void {
+    if (product.stock > 0) {
+      this.cartService.addToCart(product);
+      this.snackBar.open(`${product.name} adicionado ao carrinho!`, 'Fechar', { 
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
+    } else {
+      this.snackBar.open('Produto sem estoque disponível', 'Fechar', { 
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
+    }
   }
 }

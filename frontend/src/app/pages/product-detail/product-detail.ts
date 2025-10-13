@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Message, MessageService } from '../../services/message.service';
 import { CartService } from '../../services/cart.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-detail',
@@ -33,6 +34,7 @@ export class ProductDetail implements OnInit {
   private messageService = inject(MessageService);
   private fb = inject(FormBuilder);
   private cartService = inject(CartService);
+  private snackBar = inject(MatSnackBar);
 
   messageForm = this.fb.group({
     content: ['', Validators.required],
@@ -42,7 +44,11 @@ export class ProductDetail implements OnInit {
     if (this.product) {
       // Adicionar ao carrinho e redirecionar
       this.cartService.addToCart(this.product);
-      alert(`${this.product.name} adicionado ao carrinho!`);
+      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { 
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
     }
   }
 
@@ -69,7 +75,11 @@ export class ProductDetail implements OnInit {
       };
 
       this.messageService.sendMessage(message).subscribe(() => {
-        alert('Mensagem enviada com sucesso!');
+        this.snackBar.open('Mensagem enviada com sucesso!', 'Fechar', { 
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top'
+        });
         this.messageForm.reset();
       });
     }
@@ -78,7 +88,11 @@ export class ProductDetail implements OnInit {
   addToCart(): void {
     if (this.product) {
       this.cartService.addToCart(this.product);
-      alert(`${this.product.name} adicionado ao carrinho!`);
+      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { 
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
     }
   }
 }

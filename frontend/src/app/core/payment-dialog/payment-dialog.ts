@@ -6,6 +6,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaymentService } from '../../services/payment.service';
 
 export interface PaymentDialogData {
@@ -24,6 +25,7 @@ export interface PaymentDialogData {
 export class PaymentDialog implements OnInit {
   private fb = inject(FormBuilder);
   private paymentService = inject(PaymentService);
+  private snackBar = inject(MatSnackBar);
   public dialogRef = inject(MatDialogRef<PaymentDialog>);
   public data: PaymentDialogData = inject(MAT_DIALOG_DATA);
 
@@ -47,11 +49,19 @@ export class PaymentDialog implements OnInit {
 
       this.paymentService.processPayment(paymentData as any).subscribe(
         (response) => {
-          alert('Pagamento processado com sucesso!');
+          this.snackBar.open('Pagamento processado com sucesso!', 'Fechar', { 
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
           this.dialogRef.close('success');
         },
         (error) => {
-          alert(error.message || 'Falha no pagamento. Tente novamente.');
+          this.snackBar.open(error.message || 'Falha no pagamento. Tente novamente.', 'Fechar', { 
+            duration: 5000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
           this.dialogRef.close('error');
         }
       );
