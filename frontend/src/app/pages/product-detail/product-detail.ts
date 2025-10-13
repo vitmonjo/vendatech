@@ -1,7 +1,7 @@
 import { ProductService } from './../../services/product.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { Product } from '../../services/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule, DecimalPipe } from '@angular/common';
@@ -30,6 +30,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProductDetail implements OnInit {
   product: Product | undefined;
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private productService = inject(ProductService);
   private messageService = inject(MessageService);
   private fb = inject(FormBuilder);
@@ -42,13 +43,17 @@ export class ProductDetail implements OnInit {
 
   buyNow(): void {
     if (this.product) {
-      // Adicionar ao carrinho e redirecionar
+      // Adicionar ao carrinho e redirecionar para o carrinho
       this.cartService.addToCart(this.product);
       this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { 
-        duration: 3000,
+        duration: 2000,
         horizontalPosition: 'right',
         verticalPosition: 'top'
       });
+      // Redirecionar para o carrinho após um pequeno delay
+      setTimeout(() => {
+        this.router.navigate(['/cart']);
+      }, 1000);
     }
   }
 
