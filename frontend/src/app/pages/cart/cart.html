@@ -33,11 +33,19 @@
       <mat-card class="cart-summary">
         <h3>Resumo do Pedido</h3>
         <p>Total: <strong>R$ {{ cartTotal$ | async | number : '1.2-2' }}</strong></p>
-        <p class="info-message">
-          <mat-icon>info</mat-icon>
-          Funcionalidade de pagamento será implementada em breve.
-        </p>
-        <button mat-button color="warn" (click)="clearCart()">Limpar Carrinho</button>
+        
+        <div class="cart-actions">
+          <button mat-raised-button color="primary" (click)="proceedToPayment()" 
+                  [disabled]="(cartItems$ | async)?.length === 0">
+            <mat-icon>payment</mat-icon>
+            Finalizar Compra
+          </button>
+          
+          <button mat-button color="warn" (click)="clearCart()">
+            <mat-icon>delete_sweep</mat-icon>
+            Limpar Carrinho
+          </button>
+        </div>
       </mat-card>
     </div>
   </ng-container>

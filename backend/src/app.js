@@ -7,6 +7,7 @@ require('dotenv').config();
 // Importar rotas
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
+const paymentRoutes = require('./routes/payment');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rotas da API
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Rota de teste
 app.get('/api/test', (req, res) => {

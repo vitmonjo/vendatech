@@ -9,6 +9,8 @@ import { Register } from './pages/register/register';
 import { Cart } from './pages/cart/cart';
 import { Admin } from './pages/admin/admin';
 import { Profile } from './pages/profile/profile';
+import { Payment } from './pages/payment/payment';
+import { PaymentSuccess } from './pages/payment-success/payment-success';
 import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
@@ -22,6 +24,8 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'register', component: Register },
   { path: 'cart', component: Cart },
+  { path: 'payment', component: Payment },
+  { path: 'payment-success', component: PaymentSuccess },
   { path: 'profile', component: Profile },
   { path: '**', redirectTo: '' }, // Rota curinga para redirecionar para a home
 ];

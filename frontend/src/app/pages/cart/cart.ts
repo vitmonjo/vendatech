@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 import { CartService, CartItem } from '../../services/cart.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class Cart implements OnInit {
   cartItems$!: Observable<CartItem[]>;
   cartTotal$!: Observable<number>;
   private cartService = inject(CartService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.cartItems$ = this.cartService.cartItems$;
@@ -34,5 +36,9 @@ export class Cart implements OnInit {
 
   clearCart(): void {
     this.cartService.clearCart();
+  }
+
+  proceedToPayment(): void {
+    this.router.navigate(['/payment']);
   }
 }
