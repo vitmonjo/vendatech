@@ -9,6 +9,7 @@ import { Register } from './pages/register/register';
 import { Cart } from './pages/cart/cart';
 import { Admin } from './pages/admin/admin';
 import { Profile } from './pages/profile/profile';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -17,7 +18,7 @@ export const routes: Routes = [
   { path: 'my-products', component: MyProducts },
   { path: 'my-products/new', component: ProductForm },
   { path: 'my-products/edit/:id', component: ProductForm },
-  { path: 'admin', component: Admin },
+  { path: 'admin', component: Admin, canActivate: [adminGuard] },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
   { path: 'cart', component: Cart },

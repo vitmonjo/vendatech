@@ -66,12 +66,6 @@ export class Admin implements OnInit {
   displayedColumns: string[] = ['name', 'price', 'category', 'stock', 'actions'];
 
   ngOnInit(): void {
-    // Verificar se é admin
-    if (!this.authService.isAdmin()) {
-      this.router.navigate(['/products']);
-      return;
-    }
-
     this.loadProducts();
   }
 
