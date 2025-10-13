@@ -26,6 +26,10 @@
           <mat-icon>person</mat-icon>
           Meu Perfil
         </button>
+        <button mat-menu-item routerLink="/orders">
+          <mat-icon>shopping_bag</mat-icon>
+          Minhas Compras
+        </button>
         <button mat-menu-item routerLink="/my-products" *ngIf="(currentUser$ | async)?.isAdmin">
           <mat-icon>inventory</mat-icon>
           Meus Produtos

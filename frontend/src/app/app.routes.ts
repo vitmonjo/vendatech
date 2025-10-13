@@ -11,7 +11,9 @@ import { Admin } from './pages/admin/admin';
 import { Profile } from './pages/profile/profile';
 import { Payment } from './pages/payment/payment';
 import { PaymentSuccess } from './pages/payment-success/payment-success';
+import { OrderHistory } from './pages/order-history/order-history';
 import { adminGuard } from './guards/admin.guard';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -23,9 +25,10 @@ export const routes: Routes = [
   { path: 'admin', component: Admin, canActivate: [adminGuard] },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
-  { path: 'cart', component: Cart },
-  { path: 'payment', component: Payment },
-  { path: 'payment-success', component: PaymentSuccess },
+  { path: 'cart', component: Cart, canActivate: [authGuard] },
+  { path: 'payment', component: Payment, canActivate: [authGuard] },
+  { path: 'payment-success', component: PaymentSuccess, canActivate: [authGuard] },
+  { path: 'orders', component: OrderHistory, canActivate: [authGuard] },
   { path: 'profile', component: Profile },
   { path: '**', redirectTo: '' }, // Rota curinga para redirecionar para a home
 ];

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { PaymentService, PaymentRequest, PaymentCard } from '../../services/payment.service';
 import { CartService } from '../../services/cart.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-payment',
@@ -32,6 +33,7 @@ export class Payment implements OnInit {
   private fb = inject(FormBuilder);
   private paymentService = inject(PaymentService);
   private cartService = inject(CartService);
+  private orderService = inject(OrderService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
@@ -120,22 +122,11 @@ export class Payment implements OnInit {
       // Processar pagamento
       this.paymentService.processPayment(paymentData).subscribe({
         next: (response) => {
-          this.isLoading = false;
-          
           if (response.success) {
-            this.snackBar.open('Pagamento realizado com sucesso!', 'Fechar', { duration: 5000 });
-            
-            // Limpar carrinho
-            this.cartService.clearCart();
-            
-            // Redirecionar para página de sucesso
-            this.router.navigate(['/payment-success'], { 
-              queryParams: { 
-                transactionId: response.transactionId,
-                amount: this.cartTotal 
-              } 
-            });
+            // Criar pedido após pagamento bem-sucedido
+            this.createOrder(response.transactionId!);
           } else {
+            this.isLoading = false;
             this.snackBar.open(`Pagamento falhou: ${response.message}`, 'Fechar', { duration: 5000 });
           }
         },
@@ -156,5 +147,43 @@ export class Payment implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/cart']);
+  }
+
+  private createOrder(transactionId: string): void {
+    const orderData = {
+      items: this.cartItems.map(item => ({
+        productId: item._id,
+        productName: item.name,
+        productPrice: item.price,
+        productImage: item.image,
+        quantity: item.quantity
+      })),
+      totalAmount: this.cartTotal,
+      transactionId: transactionId
+    };
+
+    this.orderService.createOrder(orderData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.snackBar.open('Pagamento realizado com sucesso!', 'Fechar', { duration: 5000 });
+        
+        // Limpar carrinho
+        this.cartService.clearCart();
+        
+        // Redirecionar para página de sucesso
+        this.router.navigate(['/payment-success'], { 
+          queryParams: { 
+            transactionId: transactionId,
+            amount: this.cartTotal,
+            orderId: response.data.order._id
+          } 
+        });
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Erro ao criar pedido:', error);
+        this.snackBar.open('Erro ao finalizar pedido. Entre em contato com o suporte.', 'Fechar', { duration: 5000 });
+      }
+    });
   }
 }
