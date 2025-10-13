@@ -5,7 +5,6 @@
   <span class="spacer"></span>
   <div class="nav-links">
     <a mat-button routerLink="/products">Produtos</a>
-    <a mat-button routerLink="/my-products">Meus Produtos</a>
     <a mat-button routerLink="/cart"> <mat-icon>shopping_cart</mat-icon> Carrinho </a>
     
     <!-- Usuário não logado -->
@@ -27,7 +26,7 @@
           <mat-icon>person</mat-icon>
           Meu Perfil
         </button>
-        <button mat-menu-item routerLink="/my-products">
+        <button mat-menu-item routerLink="/my-products" *ngIf="(currentUser$ | async)?.isAdmin">
           <mat-icon>inventory</mat-icon>
           Meus Produtos
         </button>
