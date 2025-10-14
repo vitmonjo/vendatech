@@ -1,7 +1,7 @@
 import { ProductService } from './../../services/product.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { Product } from '../../services/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -9,10 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Message, MessageService } from '../../services/message.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { PaymentDialog } from '../../core/payment-dialog/payment-dialog';
 import { CartService } from '../../services/cart.service';
-import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-detail',
@@ -24,8 +22,7 @@ import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    BrazilianCurrencyPipe,
+    DecimalPipe,
   ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
@@ -33,11 +30,12 @@ import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 export class ProductDetail implements OnInit {
   product: Product | undefined;
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private productService = inject(ProductService);
   private messageService = inject(MessageService);
   private fb = inject(FormBuilder);
-  private dialog = inject(MatDialog);
   private cartService = inject(CartService);
+  private snackBar = inject(MatSnackBar);
 
   messageForm = this.fb.group({
     content: ['', Validators.required],
@@ -45,48 +43,48 @@ export class ProductDetail implements OnInit {
 
   buyNow(): void {
     if (this.product) {
-      const dialogRef = this.dialog.open(PaymentDialog, {
-        width: '400px',
-        data: {
-          productName: this.product.name,
-          productPrice: this.product.price,
-          productId: this.product.id,
-        },
+      // Adicionar ao carrinho e redirecionar para o carrinho
+      this.cartService.addToCart(this.product);
+      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { 
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
       });
-
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result === 'success') {
-          alert('Pagamento concluído!');
-          // Futuramente adicionar a lógica real de compra, adicionar ao carrinho, integrar coim gateway de pagamento ou redirecionar para o checkout
-        } else if (result === 'error') {
-          alert('O pagamento falhou.');
-        }
-      });
+      // Redirecionar para o carrinho após um pequeno delay
+      setTimeout(() => {
+        this.router.navigate(['/cart']);
+      }, 1000);
     }
   }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadProduct(id);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadProduct(id);
+    }
   }
 
-  loadProduct(id: number): void {
-    this.productService.getProductById(id).subscribe((product) => {
-      this.product = product;
+  loadProduct(id: string): void {
+    this.productService.getProductById(id).subscribe((response) => {
+      this.product = response.data.product;
     });
   }
 
   sendMessage(): void {
     if (this.messageForm.valid && this.product) {
       const message: Omit<Message, 'id'> = {
-        productId: this.product.id!,
+        productId: this.product._id!,
         senderId: 1, // Simula um usuário logado com id 1
         content: this.messageForm.value.content || '',
         timestamp: new Date(),
       };
 
       this.messageService.sendMessage(message).subscribe(() => {
-        alert('Mensagem enviada com sucesso!');
+        this.snackBar.open('Mensagem enviada com sucesso!', 'Fechar', { 
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top'
+        });
         this.messageForm.reset();
       });
     }
@@ -95,7 +93,11 @@ export class ProductDetail implements OnInit {
   addToCart(): void {
     if (this.product) {
       this.cartService.addToCart(this.product);
-      alert(`${this.product.name} adicionado ao carrinho!`);
+      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { 
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
     }
   }
 }

@@ -1,11 +1,12 @@
-import { AuthService } from './../../services/auth.service';
+import { AuthService, RegisterRequest } from './../../services/auth.service';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { EmailValidator, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
-import { Router, RouterModule } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -16,20 +17,48 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class Register {
   private fb = inject(FormBuilder);
-  private AuthService = inject(AuthService);
+  private authService = inject(AuthService);
   private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
+
+  isLoading = false;
 
   registerForm = this.fb.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   onSubmit(): void {
-    if (this.registerForm.valid) {
-      this.AuthService.register(this.registerForm.value as any).subscribe(() => {
-        alert('Conta criada com sucesso! Faça login.');
-        this.router.navigate(['/login']);
+    if (this.registerForm.valid && !this.isLoading) {
+      this.isLoading = true;
+      const userData: RegisterRequest = {
+        name: this.registerForm.value.name!,
+        email: this.registerForm.value.email!,
+        password: this.registerForm.value.password!
+      };
+
+      this.authService.register(userData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.snackBar.open('Conta criada com sucesso!', 'Fechar', { duration: 3000 });
+          
+          // Redirecionar baseado no tipo de usuário
+          if (response.data.user.isAdmin) {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/products']);
+          }
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Erro no registro:', error);
+          this.snackBar.open(
+            error.error?.message || 'Erro ao criar conta. Tente novamente.',
+            'Fechar',
+            { duration: 5000 }
+          );
+        }
       });
     }
   }

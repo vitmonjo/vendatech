@@ -4,7 +4,7 @@ import { Observable, timestamp } from 'rxjs';
 
 export interface Message {
   id?: number;
-  productId: number;
+  productId: string;
   senderId: number;
   content: string;
   timestamp: Date;
@@ -21,7 +21,7 @@ export class MessageService {
     return this.http.post<Message>(this.apiUrl, { ...message, timestamp: new Date() });
   }
 
-  getMessagesByProductId(productId: number): Observable<Message[]> {
+  getMessagesByProductId(productId: string): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.apiUrl}?productId=${productId}`);
   }
 }

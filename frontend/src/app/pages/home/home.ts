@@ -23,9 +23,9 @@ export class Home implements OnInit {
   }
 
   loadFeaturedProducts(): void {
-    this.productService.getProducts().subscribe((products) => {
+    this.productService.getProducts().subscribe((response) => {
       // Pega os 3 primeiros produtos da lista como "em destaque"
-      this.featuredProducts = products.slice(0, 3);
+      this.featuredProducts = response.data.products.slice(0, 3);
     });
   }
 }

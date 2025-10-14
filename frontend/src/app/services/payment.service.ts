@@ -1,22 +1,29 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
-export interface PaymentRequest {
-  cardNumber: string;
-  expiry: string;
+export interface PaymentCard {
+  number: string;
+  expiryMonth: string;
+  expiryYear: string;
   cvv: string;
-  amount: number;
-  productId: number;
+  holderName: string;
 }
 
-export interface Card {
-  cardNumber: string;
-  expiry: string;
-  cvv: string;
-  limit: number;
-  balance: number;
+export interface PaymentRequest {
+  customerName: string;
+  customerCpf: string;
+  card: PaymentCard;
+  amount: number;
+  description?: string;
+}
+
+export interface PaymentResponse {
+  success: boolean;
+  message: string;
+  transactionId?: string;
+  error?: string;
 }
 
 @Injectable({
@@ -24,41 +31,105 @@ export interface Card {
 })
 export class PaymentService {
   private http = inject(HttpClient);
-  private cardApiUrl = 'http://localhost:3000/cards';
-  private paymentApiUrl = 'http://localhost:3000/payments';
+  
+  // URL mock - será substituída pela URL real do sistema de pagamento
+  private paymentApiUrl = `${environment.apiUrl}/payment`;
 
-  processPayment(request: PaymentRequest): Observable<any> {
-    return this.http.get<Card[]>(`${this.cardApiUrl}?cardNumber=${request.cardNumber}`).pipe(
-      map((cards) => {
-        const card = cards[0];
-        if (!card) {
-          throw new Error('Cartão não encontrado.');
-        }
-        if (card.limit - card.balance < request.amount) {
-          throw new Error('Limite de cartão insuficiente.');
-        }
-        return { card, request };
-      }),
-      tap(({ card, request }) => {
-        // Simula a aprovação e atualiza o saldo do cartão
-        const newBalance = card.balance + request.amount;
-        this.http
-          .patch(`${this.cardApiUrl}/${card.cardNumber}`, { balance: newBalance })
-          .subscribe();
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
 
-        // Registra a transação
-        const paymentRecord = {
-          productId: request.productId,
-          userId: 1, // Simular o ID do usuário logado
-          amount: request.amount,
-          status: 'approved',
-          timestamp: new Date().toISOString(),
-        };
-        this.http.post(this.paymentApiUrl, paymentRecord).subscribe();
-      }),
-      catchError((error) => {
-        return throwError(() => new Error(error.message || 'Erro ao processar pagamento.'));
-      })
+  /**
+   * Processa um pagamento
+   * @param paymentData Dados do pagamento (nome, CPF, cartão, valor)
+   * @returns Observable com resultado do pagamento
+   */
+  processPayment(paymentData: PaymentRequest): Observable<PaymentResponse> {
+    return this.http.post<PaymentResponse>(
+      `${this.paymentApiUrl}/process`,
+      paymentData,
+      { headers: this.getAuthHeaders() }
     );
+  }
+
+  /**
+   * Valida os dados do cartão antes do envio
+   * @param card Dados do cartão
+   * @returns true se válido, false caso contrário
+   */
+  validateCard(card: PaymentCard): boolean {
+    // Validação básica do número do cartão (Luhn algorithm simplificado)
+    const cardNumber = card.number.replace(/\s/g, '');
+    if (!/^\d{13,19}$/.test(cardNumber)) {
+      return false;
+    }
+
+    // Validação do CVV
+    if (!/^\d{3,4}$/.test(card.cvv)) {
+      return false;
+    }
+
+    // Validação do mês de expiração
+    const month = parseInt(card.expiryMonth);
+    if (month < 1 || month > 12) {
+      return false;
+    }
+
+    // Validação do ano de expiração
+    const currentYear = new Date().getFullYear();
+    const year = parseInt(card.expiryYear);
+    if (year < currentYear) {
+      return false;
+    }
+
+    // Validação do nome do portador
+    if (!card.holderName || card.holderName.trim().length < 2) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Valida CPF (algoritmo básico)
+   * @param cpf CPF a ser validado
+   * @returns true se válido, false caso contrário
+   */
+  validateCpf(cpf: string): boolean {
+    // Remove caracteres não numéricos
+    const cleanCpf = cpf.replace(/\D/g, '');
+    
+    // Verifica se tem 11 dígitos
+    if (cleanCpf.length !== 11) {
+      return false;
+    }
+
+    // Verifica se não são todos os dígitos iguais
+    if (/^(\d)\1{10}$/.test(cleanCpf)) {
+      return false;
+    }
+
+    // Algoritmo de validação do CPF
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+      sum += parseInt(cleanCpf.charAt(i)) * (10 - i);
+    }
+    let remainder = (sum * 10) % 11;
+    if (remainder === 10 || remainder === 11) remainder = 0;
+    if (remainder !== parseInt(cleanCpf.charAt(9))) return false;
+
+    sum = 0;
+    for (let i = 0; i < 10; i++) {
+      sum += parseInt(cleanCpf.charAt(i)) * (11 - i);
+    }
+    remainder = (sum * 10) % 11;
+    if (remainder === 10 || remainder === 11) remainder = 0;
+    if (remainder !== parseInt(cleanCpf.charAt(10))) return false;
+
+    return true;
   }
 }

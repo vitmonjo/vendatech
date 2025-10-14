@@ -1,17 +1,84 @@
 <div class="products-container">
-  <h2>Produtos à Venda</h2>
-  <div class="products-grid">
+  <!-- Filtros -->
+  <div class="filters-section">
+    <div class="filters-row">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar produtos</mat-label>
+        <input matInput [(ngModel)]="searchTerm" placeholder="Digite o nome do produto..." />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="category-field">
+        <mat-label>Categoria</mat-label>
+        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()">
+          <mat-option *ngFor="let category of categories" [value]="category.value">
+            {{ category.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="onSearch()" [disabled]="isLoading">
+        <mat-icon>search</mat-icon>
+        Buscar
+      </button>
+
+      <button mat-stroked-button (click)="clearFilters()" [disabled]="isLoading">
+        <mat-icon>clear</mat-icon>
+        Limpar
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading">
+    <mat-icon>refresh</mat-icon>
+    Carregando produtos...
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && products.length === 0" class="empty-state">
+    <mat-icon>inventory_2</mat-icon>
+    <h3>Nenhum produto encontrado</h3>
+    <p>Tente ajustar os filtros de busca ou categoria.</p>
+  </div>
+
+  <!-- Produtos -->
+  <div *ngIf="!isLoading && products.length > 0" class="products-grid">
     <mat-card *ngFor="let product of products" class="product-card">
-      <img mat-card-image [src]="product.image" alt="Imagem do produto" />
+      <div class="product-image-container">
+        <img [src]="product.image" [alt]="product.name" class="product-image" />
+        <div class="product-category">{{ product.category | titlecase }}</div>
+        <div *ngIf="product.stock > 0" class="stock-badge">Em estoque</div>
+        <div *ngIf="product.stock === 0" class="stock-badge out-of-stock">Sem estoque</div>
+      </div>
+
       <mat-card-header>
         <mat-card-title>{{ product.name }}</mat-card-title>
-        <mat-card-subtitle>{{ product.price | brazilianCurrency }}</mat-card-subtitle>
+        <mat-card-subtitle class="price"
+          >R$ {{ product.price | number : '1.2-2' }}</mat-card-subtitle
+        >
       </mat-card-header>
+
       <mat-card-content>
-        <p>{{ product.description }}</p>
+        <p class="product-description">
+          {{ product.description | slice : 0 : 100
+          }}{{ product.description.length > 100 ? '...' : '' }}
+        </p>
+        <div class="product-stock">
+          <mat-icon>inventory</mat-icon>
+          <span>{{ product.stock }} unidades disponíveis</span>
+        </div>
       </mat-card-content>
+
       <mat-card-actions>
-        <a mat-button color="primary" [routerLink]="['/products', product.id]">Ver Detalhes</a>
+        <button mat-button color="primary" [routerLink]="['/products', product._id]">
+          <mat-icon>visibility</mat-icon>
+          Ver Detalhes
+        </button>
+        <button mat-button color="accent" [disabled]="product.stock === 0" (click)="addToCart(product)">
+          <mat-icon>shopping_cart</mat-icon>
+          Adicionar ao Carrinho
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

@@ -14,7 +14,7 @@ export interface PriceAlert {
 })
 export class AlertService {
   private productService = inject(ProductService);
-  private priceAlert = new Subject<PriceAlert>();
+  private priceAlert = new Subject<{ productId: string; productName: string; price: number }>();
   priceAlert$ = this.priceAlert.asObservable();
   private checkInterval: any;
   private alertedProducts = new Set<number>(); // Controla produtos já alertados
@@ -31,21 +31,13 @@ export class AlertService {
   }
 
   checkPrices(): void {
-    this.productService.getProducts().subscribe((products) => {
-      const currentTime = new Date();
-      
-      // Filtra produtos com preço menor que R$ 2000
-      const affordableProducts = products.filter(product => product.price < 2000);
-      
-      // Só alerta produtos que ainda não foram alertados recentemente
-      affordableProducts.forEach((product) => {
-        const productId = product.id!;
-        const timeSinceLastAlert = currentTime.getTime() - this.lastCheckTime.getTime();
-        
-        // Só alerta se não foi alertado recentemente (últimos 5 minutos)
-        if (!this.alertedProducts.has(productId) || timeSinceLastAlert > 300000) {
+    this.productService.getProducts().subscribe((response) => {
+      // Lógica de verificação de preço
+      // Neste exemplo, vamos checar se algum produto custa menos de R$ 2000
+      response.data.products.forEach((product) => {
+        if (product.price < 2000) {
           this.priceAlert.next({
-            productId: productId,
+            productId: product._id!,
             productName: product.name,
             price: product.price,
             timestamp: currentTime,

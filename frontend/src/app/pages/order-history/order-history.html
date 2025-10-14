@@ -1,0 +1,97 @@
+<div class="order-history-container">
+  <div class="order-history-header">
+    <h1>📦 Meu Histórico de Compras</h1>
+    <p>Acompanhe todos os seus pedidos realizados</p>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Carregando histórico de compras...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && orders.length === 0" class="empty-state">
+    <mat-icon>shopping_bag</mat-icon>
+    <h3>Nenhuma compra encontrada</h3>
+    <p>Você ainda não realizou nenhuma compra.</p>
+    <a mat-raised-button color="primary" routerLink="/products">
+      <mat-icon>shopping_cart</mat-icon>
+      Começar a Comprar
+    </a>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!isLoading && orders.length > 0" class="orders-list">
+    <mat-card *ngFor="let order of orders" class="order-card">
+      <mat-card-header>
+        <div class="order-header-info">
+          <div class="order-info">
+            <h3>Pedido #{{ order._id?.slice(-8) }}</h3>
+            <p class="order-date">{{ formatDate(order.orderDate) }}</p>
+          </div>
+          <div class="order-status">
+            <span class="status-badge" [ngClass]="'status-' + order.status">
+              {{ getStatusText(order.status) }}
+            </span>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="order-items">
+          <div *ngFor="let item of order.items" class="order-item">
+            <img [src]="item.productImage" [alt]="item.productName" class="item-image">
+            <div class="item-details">
+              <h4>{{ item.productName }}</h4>
+              <p class="item-quantity">Quantidade: {{ item.quantity }}</p>
+              <p class="item-price">R$ {{ item.productPrice.toFixed(2) }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-summary">
+          <div class="order-total">
+            <strong>Total: R$ {{ order.totalAmount.toFixed(2) }}</strong>
+          </div>
+          <div class="order-transaction">
+            <p>Transação: {{ order.transactionId }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary" [routerLink]="['/orders', order._id]">
+          <mat-icon>visibility</mat-icon>
+          Ver Detalhes
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && orders.length > 0 && totalPages > 1" class="pagination">
+    <button mat-button [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+      <mat-icon>chevron_left</mat-icon>
+      Anterior
+    </button>
+    
+    <button 
+      *ngFor="let page of getPageNumbers()" 
+      mat-button 
+      [color]="page === currentPage ? 'primary' : ''"
+      (click)="goToPage(page)">
+      {{ page }}
+    </button>
+    
+    <button mat-button [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+      Próximo
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <!-- Summary -->
+  <div *ngIf="!isLoading && orders.length > 0" class="summary">
+    <p>Total de {{ totalOrders }} pedido(s) encontrado(s)</p>
+  </div>
+</div>
