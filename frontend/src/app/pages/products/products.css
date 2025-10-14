@@ -1,3 +1,14 @@
+.filters-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filters-row mat-form-field {
+  flex-grow: 1;
+}
+
 .products-container {
   max-width: 1200px;
   margin: 2rem auto;
@@ -10,6 +21,7 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem; /* Espaçamento entre os cards */
   justify-items: center;
+  margin-top: 2rem;
 }
 
 .product-card {
@@ -45,7 +57,6 @@ mat-card-title {
   font-weight: 600;
   color: #005a9e;
   margin-bottom: 0.25rem;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -61,6 +72,15 @@ mat-card-subtitle {
   justify-content: flex-end;
   padding: 0.5rem 1rem 1rem;
   margin-top: auto;
+}
+
+.product-stock {
+  display: flex;
+  gap: 8px;
+}
+
+.product-stock > mat-icon {
+  color: var(--mat-button-text-label-text-color, var(--mat-sys-primary));
 }
 
 /* Responsividade: para telas menores, o grid muda para uma coluna */

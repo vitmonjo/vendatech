@@ -1,0 +1,41 @@
+<div class="success-container">
+  <div class="success-content">
+    <mat-card class="success-card">
+      <mat-card-content>
+        <div class="success-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        
+        <h1>🎉 Pagamento Realizado com Sucesso!</h1>
+        
+        <p class="success-message">
+          Sua compra foi processada com sucesso. Você receberá um e-mail de confirmação em breve.
+        </p>
+        
+        <div class="transaction-details" *ngIf="transactionId">
+          <div class="detail-item">
+            <strong>ID da Transação:</strong>
+            <span>{{ transactionId }}</span>
+          </div>
+          
+          <div class="detail-item" *ngIf="amount > 0">
+            <strong>Valor Pago:</strong>
+            <span>R$ {{ amount.toFixed(2) }}</span>
+          </div>
+        </div>
+        
+        <div class="success-actions">
+          <button mat-raised-button color="primary" (click)="goToProducts()">
+            <mat-icon>shopping_bag</mat-icon>
+            Continuar Comprando
+          </button>
+          
+          <button mat-button (click)="goToHome()">
+            <mat-icon>home</mat-icon>
+            Voltar ao Início
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

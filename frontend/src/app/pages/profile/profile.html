@@ -1,0 +1,94 @@
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <div mat-card-avatar class="profile-avatar">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <mat-card-title>Meu Perfil</mat-card-title>
+      <mat-card-subtitle>Gerencie suas informações pessoais</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <!-- Informações Básicas -->
+        <div class="form-section">
+          <h3>Informações Pessoais</h3>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="name" [readonly]="!isEditing">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" [readonly]="!isEditing">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Alteração de Senha -->
+        <div class="form-section" *ngIf="isEditing">
+          <h3>Alterar Senha</h3>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Senha Atual</mat-label>
+              <input matInput type="password" formControlName="currentPassword">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nova Senha</mat-label>
+              <input matInput type="password" formControlName="newPassword">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirmar Nova Senha</mat-label>
+              <input matInput type="password" formControlName="confirmPassword">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="action-buttons">
+          <ng-container *ngIf="!isEditing">
+            <button mat-raised-button color="primary" (click)="toggleEdit()">
+              <mat-icon>edit</mat-icon>
+              Editar Perfil
+            </button>
+          </ng-container>
+          
+          <ng-container *ngIf="isEditing">
+            <button mat-raised-button color="primary" type="submit">
+              <mat-icon>save</mat-icon>
+              Salvar Alterações
+            </button>
+            <button mat-button type="button" (click)="toggleEdit()">
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </ng-container>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Seção de Endereços (Futuro) -->
+  <mat-card class="addresses-card">
+    <mat-card-header>
+      <mat-card-title>Endereços</mat-card-title>
+      <mat-card-subtitle>Gerencie seus endereços de entrega</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Funcionalidade de endereços será implementada em breve.</p>
+      <button mat-button color="primary" disabled>
+        <mat-icon>add</mat-icon>
+        Adicionar Endereço
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>

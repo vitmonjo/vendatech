@@ -32,6 +32,29 @@
       <mat-hint>Cole o link para uma imagem do produto</mat-hint>
     </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Categoria</mat-label>
+      <mat-select formControlName="category" required>
+        <mat-option value="eletrônicos">Eletrônicos</mat-option>
+        <mat-option value="roupas">Roupas</mat-option>
+        <mat-option value="casa">Casa</mat-option>
+        <mat-option value="esportes">Esportes</mat-option>
+        <mat-option value="livros">Livros</mat-option>
+        <mat-option value="outros">Outros</mat-option>
+      </mat-select>
+      <mat-error *ngIf="productForm.get('category')?.invalid">
+        Selecione uma categoria
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Estoque</mat-label>
+      <input matInput formControlName="stock" type="number" min="0" required />
+      <mat-error *ngIf="productForm.get('stock')?.invalid">
+        Informe a quantidade em estoque
+      </mat-error>
+    </mat-form-field>
+
     <div class="form-actions">
       <a mat-button routerLink="/my-products">Cancelar</a>
       <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
