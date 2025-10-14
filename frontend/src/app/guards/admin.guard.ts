@@ -6,6 +6,15 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
+  // Verificar se o usuário está logado primeiro
+  if (!authService.isLoggedIn()) {
+    router.navigate(['/login'], { 
+      queryParams: { returnUrl: state.url } 
+    });
+    return false;
+  }
+
+  // Verificar se é admin
   if (authService.isAdmin()) {
     return true;
   } else {

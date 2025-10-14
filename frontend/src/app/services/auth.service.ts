@@ -64,7 +64,11 @@ export class AuthService {
     }
   }
 
-  isLoggedIn(): Observable<boolean> {
+  isLoggedIn(): boolean {
+    return this.loggedIn.value;
+  }
+
+  isLoggedIn$(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 
