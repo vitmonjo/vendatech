@@ -15,7 +15,7 @@ import { PriceAlertComponent } from './core/price-alert/price-alert';
   animations: [fader],
 })
 export class App implements OnInit {
-  title = 'sales-app';
+  title = 'vendatech';
   private alertService = inject(AlertService);
   private snackBar = inject(MatSnackBar);
 

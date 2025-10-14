@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build:prod",
-  "outputDirectory": "dist/sales-app/browser",
+  "outputDirectory": "dist/vendatech/browser",
   "framework": "angular",
   "rewrites": [
     {

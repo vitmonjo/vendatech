@@ -21,7 +21,7 @@ export class Navbar implements OnInit {
   currentUser$!: Observable<User | null>;
 
   ngOnInit(): void {
-    this.isLoggedIn$ = this.authService.isLoggedIn();
+    this.isLoggedIn$ = this.authService.isLoggedIn$();
     this.currentUser$ = this.authService.getCurrentUser();
   }
 
