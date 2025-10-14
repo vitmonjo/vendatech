@@ -11,7 +11,7 @@
           <img [src]="item.image" alt="Imagem do produto" class="item-image" />
           <div class="details">
             <h3>{{ item.name }}</h3>
-            <p class="price">R$ {{ item.price | number : '1.2-2' }}</p>
+            <p class="price">{{ item.price | brazilianCurrency }}</p>
             <div class="quantity-control">
               <button mat-icon-button (click)="updateQuantity(item._id!, -1)">
                 <mat-icon>remove</mat-icon>

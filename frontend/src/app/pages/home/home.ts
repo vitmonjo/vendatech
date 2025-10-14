@@ -5,11 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../services/product.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule],
+  imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule, BrazilianCurrencyPipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

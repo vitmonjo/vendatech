@@ -2,6 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Product, ProductService } from './product.service';
 
+export interface PriceAlert {
+  productId: number;
+  productName: string;
+  price: number;
+  timestamp: Date;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,6 +17,8 @@ export class AlertService {
   private priceAlert = new Subject<{ productId: string; productName: string; price: number }>();
   priceAlert$ = this.priceAlert.asObservable();
   private checkInterval: any;
+  private alertedProducts = new Set<number>(); // Controla produtos já alertados
+  private lastCheckTime = new Date();
 
   constructor() {
     this.startPriceCheck();
@@ -18,7 +27,7 @@ export class AlertService {
   startPriceCheck(): void {
     this.checkInterval = setInterval(() => {
       this.checkPrices();
-    }, 10000); // Checa a cada 10 segundos
+    }, 30000); // Checa a cada 30 segundos (reduzido para evitar spam)
   }
 
   checkPrices(): void {
@@ -31,10 +40,26 @@ export class AlertService {
             productId: product._id!,
             productName: product.name,
             price: product.price,
+            timestamp: currentTime,
           });
+          
+          // Marca como alertado
+          this.alertedProducts.add(productId);
         }
       });
+      
+      this.lastCheckTime = currentTime;
     });
+  }
+
+  // Método para limpar histórico de alertas (útil para reset)
+  clearAlertHistory(): void {
+    this.alertedProducts.clear();
+  }
+
+  // Método para resetar alerta de um produto específico
+  resetProductAlert(productId: number): void {
+    this.alertedProducts.delete(productId);
   }
 
   stopPriceCheck(): void {

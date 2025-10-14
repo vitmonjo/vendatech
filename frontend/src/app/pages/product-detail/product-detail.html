@@ -6,7 +6,7 @@
     <mat-card-content>
       <div class="product-info">
         <h1>{{ product.name }}</h1>
-        <p class="price">R$ {{ product.price | number : '1.2-2' }}</p>
+        <p class="price">{{ product.price | brazilianCurrency }}</p>
         <p>{{ product.description }}</p>
       </div>
     </mat-card-content>
