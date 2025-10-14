@@ -6,11 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../services/product.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-my-products',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, MatIconModule, BrazilianCurrencyPipe],
   templateUrl: './my-products.html',
   styleUrl: './my-products.css',
 })

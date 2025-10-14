@@ -4,7 +4,7 @@ import { Product } from '../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { Message, MessageService } from '../../services/message.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PaymentDialog } from '../../core/payment-dialog/payment-dialog';
 import { CartService } from '../../services/cart.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-product-detail',
@@ -23,8 +24,8 @@ import { CartService } from '../../services/cart.service';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    DecimalPipe,
     MatDialogModule,
+    BrazilianCurrencyPipe,
   ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',

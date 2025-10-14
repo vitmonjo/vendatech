@@ -1,16 +1,17 @@
 // src/app/pages/cart/cart.ts
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CartService, CartItem } from '../../services/cart.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, BrazilianCurrencyPipe],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })

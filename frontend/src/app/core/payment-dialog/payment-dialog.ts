@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { PaymentService } from '../../services/payment.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 export interface PaymentDialogData {
   productName: string;
@@ -17,7 +18,7 @@ export interface PaymentDialogData {
 @Component({
   selector: 'app-payment-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, BrazilianCurrencyPipe],
   templateUrl: './payment-dialog.html',
   styleUrl: './payment-dialog.css',
 })

@@ -30,8 +30,15 @@ export class App implements OnInit {
   }
 
   showPriceAlert(alert: PriceAlert): void {
+    const formattedPrice = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(alert.price);
+
     const snackBarRef = this.snackBar.open(
-      `Alerta de preço! ${alert.productName} agora custa R$ ${alert.price.toFixed(2)}.`,
+      `Alerta de preço! ${alert.productName} agora custa ${formattedPrice}.`,
       'Ver Produto',
       { 
         duration: 8000, // Aumentado para 8 segundos

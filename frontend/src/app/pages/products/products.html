@@ -5,7 +5,7 @@
       <img mat-card-image [src]="product.image" alt="Imagem do produto" />
       <mat-card-header>
         <mat-card-title>{{ product.name }}</mat-card-title>
-        <mat-card-subtitle>R$ {{ product.price | number : '1.2-2' }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ product.price | brazilianCurrency }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <p>{{ product.description }}</p>
