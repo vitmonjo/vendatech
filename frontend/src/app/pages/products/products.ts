@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-products',
@@ -24,7 +25,8 @@ import { CartService } from '../../services/cart.service';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    BrazilianCurrencyPipe
   ],
   templateUrl: './products.html',
   styleUrl: './products.css',

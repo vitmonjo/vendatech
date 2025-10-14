@@ -11,7 +11,7 @@
           <img [src]="item.image" alt="Imagem do produto" class="item-image" />
           <div class="details">
             <h3>{{ item.name }}</h3>
-            <p class="price">R$ {{ item.price | number : '1.2-2' }}</p>
+            <p class="price">{{ item.price | brazilianCurrency }}</p>
             <div class="quantity-control">
               <button mat-icon-button (click)="updateQuantity(item._id!, -1)">
                 <mat-icon>remove</mat-icon>
@@ -32,7 +32,7 @@
 
       <mat-card class="cart-summary">
         <h3>Resumo do Pedido</h3>
-        <p>Total: <strong>R$ {{ cartTotal$ | async | number : '1.2-2' }}</strong></p>
+        <p>Total: <strong>{{ (cartTotal$ | async) | brazilianCurrency }}</strong></p>
         
         <div class="cart-actions">
           <button mat-raised-button color="primary" (click)="proceedToPayment()" 

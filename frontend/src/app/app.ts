@@ -2,8 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './core/navbar/navbar';
 import { fader } from './animations'; // Vamos criar este arquivo
-import { AlertService } from './services/alert.service';
+import { AlertService, PriceAlert } from './services/alert.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PriceAlertComponent } from './core/price-alert/price-alert';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.alertService.priceAlert$.subscribe((alert) => {
-      this.showPriceAlert(alert.productName, alert.price);
+      this.showPriceAlert(alert);
     });
   }
 
@@ -28,11 +29,13 @@ export class App implements OnInit {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
-  showPriceAlert(productName: string, price: number): void {
-    this.snackBar.open(
-      `Alerta de preço! ${productName} agora custa R$ ${price.toFixed(2)}.`,
-      'Fechar',
-      { duration: 5000 }
-    );
+  showPriceAlert(alert: PriceAlert): void {
+    this.snackBar.openFromComponent(PriceAlertComponent, {
+      data: alert,
+      duration: 8000, // 8 segundos para dar tempo de clicar
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: ['price-alert-snackbar']
+    });
   }
 }

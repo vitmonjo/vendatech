@@ -55,7 +55,7 @@
       <mat-card-header>
         <mat-card-title>{{ product.name }}</mat-card-title>
         <mat-card-subtitle class="price"
-          >R$ {{ product.price | number : '1.2-2' }}</mat-card-subtitle
+          >{{ product.price | brazilianCurrency }}</mat-card-subtitle
         >
       </mat-card-header>
 

@@ -7,11 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { CartService, CartItem } from '../../services/cart.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, DecimalPipe, MatCardModule, MatButtonModule, MatIconModule, BrazilianCurrencyPipe],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })
