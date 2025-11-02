@@ -1,4 +1,21 @@
 <app-navbar></app-navbar>
-<main [@routeAnimations]="prepareRoute(outlet)">
+
+<main class="main-content" [@routeAnimations]="prepareRoute(outlet)">
   <router-outlet #outlet="outlet"></router-outlet>
 </main>
+
+<footer class="app-footer">
+  <div class="footer-container">
+    <a routerLink="/" class="footer-logo">VendaTech</a>
+
+    <span class="footer-copyright">
+      © {{ currentYear }} VendaTech. Todos os direitos reservados.
+    </span>
+
+    <!-- <div class="footer-links">
+      <a mat-button href="#">Privacidade</a>
+      <a mat-button href="#">Termos</a>
+      <a mat-button href="#">Contato</a>
+    </div> -->
+  </div>
+</footer>

@@ -2,26 +2,79 @@
   <section class="hero">
     <h1>Bem-vindo à nossa loja!</h1>
     <p>
-      Descubra produtos incríveis, de eletrônicos a itens para a casa. Encontre o que você precisa
-      ou cadastre seu próprio produto para vender.
+      Descubra produtos incríveis, de eletrônicos a itens para a casa. Encontre o que você
+      precisa!!!
     </p>
     <div class="hero-actions">
-      <a mat-raised-button color="primary" routerLink="/products">Ver Todos os Produtos</a>
-      <a mat-button routerLink="/my-products/new">Começar a Vender</a>
+      <a mat-raised-button class="hero-button-primary" routerLink="/products"> Começar Compras </a>
+      <a mat-raised-button class="hero-button-secondary" routerLink="/register">
+        Criar Conta Agora
+      </a>
     </div>
   </section>
 
   <section class="featured-products-section">
     <h2>Produtos em Destaque</h2>
+
     <div class="featured-products-grid">
       <mat-card *ngFor="let product of featuredProducts" class="product-card">
-        <img mat-card-image [src]="product.image" alt="Imagem do produto" />
-        <mat-card-header>
-          <mat-card-title>{{ product.name }}</mat-card-title>
-          <mat-card-subtitle>{{ product.price | brazilianCurrency }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions class="card-actions">
-          <a mat-button [routerLink]="['/products', product._id]">Ver Detalhes</a>
+        <div class="product-image-container">
+          <img [src]="product.image" [alt]="product.name" class="product-image" />
+        </div>
+
+        <mat-card-content>
+          <div class="product-row">
+            <span class="product-name">{{ product.name }}</span>
+            <span class="product-tag category-tag" aria-label="Categoria do produto">
+              {{ product.category | titlecase }}
+            </span>
+          </div>
+
+          <div class="product-row">
+            <span class="price" aria-label="Preço do produto">
+              {{ product.price | brazilianCurrency }}
+            </span>
+            <span
+              *ngIf="product.stock > 0"
+              class="product-tag stock-tag in-stock"
+              aria-label="Status do estoque"
+            >
+              Em estoque
+            </span>
+            <span
+              *ngIf="product.stock === 0"
+              class="product-tag stock-tag out-of-stock"
+              aria-label="Status do estoque"
+            >
+              Sem estoque
+            </span>
+          </div>
+
+          <p class="product-description">
+            {{ product.description | slice : 0 : 100
+            }}{{ product.description.length > 100 ? '...' : '' }}
+          </p>
+
+          <div class="product-stock">
+            <mat-icon>inventory</mat-icon>
+            <span>{{ product.stock }} unidades disponíveis</span>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button class="details-button" [routerLink]="['/products', product._id]">
+            <mat-icon>visibility</mat-icon>
+            Ver Detalhes
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="product.stock === 0"
+            (click)="addToCart(product)"
+          >
+            <mat-icon>shopping_cart</mat-icon>
+            Adicionar
+          </button>
         </mat-card-actions>
       </mat-card>
     </div>

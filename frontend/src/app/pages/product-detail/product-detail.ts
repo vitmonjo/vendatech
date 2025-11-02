@@ -11,6 +11,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Message, MessageService } from '../../services/message.service';
 import { CartService } from '../../services/cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,7 +24,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    DecimalPipe,
+    MatIconModule,
+    BrazilianCurrencyPipe,
   ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
@@ -45,10 +48,10 @@ export class ProductDetail implements OnInit {
     if (this.product) {
       // Adicionar ao carrinho e redirecionar para o carrinho
       this.cartService.addToCart(this.product);
-      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { 
+      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', {
         duration: 2000,
         horizontalPosition: 'right',
-        verticalPosition: 'top'
+        verticalPosition: 'top',
       });
       // Redirecionar para o carrinho após um pequeno delay
       setTimeout(() => {
@@ -80,10 +83,10 @@ export class ProductDetail implements OnInit {
       };
 
       this.messageService.sendMessage(message).subscribe(() => {
-        this.snackBar.open('Mensagem enviada com sucesso!', 'Fechar', { 
+        this.snackBar.open('Mensagem enviada com sucesso!', 'Fechar', {
           duration: 3000,
           horizontalPosition: 'right',
-          verticalPosition: 'top'
+          verticalPosition: 'top',
         });
         this.messageForm.reset();
       });
@@ -93,10 +96,10 @@ export class ProductDetail implements OnInit {
   addToCart(): void {
     if (this.product) {
       this.cartService.addToCart(this.product);
-      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', { 
+      this.snackBar.open(`${this.product.name} adicionado ao carrinho!`, 'Fechar', {
         duration: 3000,
         horizontalPosition: 'right',
-        verticalPosition: 'top'
+        verticalPosition: 'top',
       });
     }
   }

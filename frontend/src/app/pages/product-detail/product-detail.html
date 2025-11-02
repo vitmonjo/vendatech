@@ -1,39 +1,87 @@
-<div *ngIf="product" class="product-detail-container">
+<div *ngIf="product" class="product-detail-container fade-in">
   <mat-card class="product-card">
-    <div class="product-header">
-      <img class="product-image" [src]="product.image" alt="Imagem do Produto" />
-    </div>
-    <mat-card-content>
-      <div class="product-info">
+    <mat-card-content class="product-layout">
+      <div class="product-image-wrapper">
+        <img class="product-image" [src]="product.image" [alt]="product.name" />
+      </div>
+
+      <div class="product-info-wrapper">
+        <div class="product-tags">
+          <span class="product-tag category-tag">
+            {{ product.category | titlecase }}
+          </span>
+          <span *ngIf="product.stock > 0" class="product-tag stock-tag in-stock"> Em estoque </span>
+          <span *ngIf="product.stock === 0" class="product-tag stock-tag out-of-stock">
+            Sem estoque
+          </span>
+        </div>
+
         <h1>{{ product.name }}</h1>
-        <p class="price">R$ {{ product.price | number : '1.2-2' }}</p>
-        <p>{{ product.description }}</p>
+        <p class="price">{{ product.price | brazilianCurrency }}</p>
+
+        <div class="product-stock">
+          <mat-icon>inventory</mat-icon>
+          <span>{{ product.stock }} unidades disponíveis</span>
+        </div>
+
+        <p class="description">{{ product.description }}</p>
+
+        <mat-card-actions class="product-actions">
+          <button
+            mat-raised-button
+            class="buy-now-button"
+            (click)="buyNow()"
+            [disabled]="product.stock === 0"
+          >
+            <mat-icon>shopping_bag</mat-icon>
+            Comprar Agora
+          </button>
+          <button
+            mat-raised-button
+            class="add-to-cart-button"
+            (click)="addToCart()"
+            [disabled]="product.stock === 0"
+          >
+            <mat-icon>shopping_cart</mat-icon>
+            Adicionar ao Carrinho
+          </button>
+        </mat-card-actions>
       </div>
     </mat-card-content>
-
-    <mat-card-actions class="product-actions">
-      <button mat-raised-button color="primary" (click)="buyNow()">Comprar Agora</button>
-      <button mat-button color="accent" (click)="addToCart()">Adicionar ao Carrinho</button>
-    </mat-card-actions>
   </mat-card>
 
-  <mat-card class="message-card">
-    <h3>Fazer uma pergunta ao vendedor</h3>
-    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+  <h3 class="message-section-title">Fazer uma pergunta ao vendedor</h3>
+
+  <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="message-form">
+    <mat-card class="message-card">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Sua mensagem</mat-label>
-        <textarea matInput formControlName="content" rows="4"></textarea>
+
+        <textarea
+          matInput
+          formControlName="content"
+          rows="5"
+          placeholder="Escreva sua pergunta aqui..."
+        ></textarea>
+
         <mat-error *ngIf="messageForm.get('content')?.invalid">
           A mensagem é obrigatória.
         </mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="messageForm.invalid">
+    </mat-card>
+
+    <div class="message-submit-wrapper">
+      <button
+        mat-raised-button
+        type="submit"
+        [disabled]="messageForm.invalid"
+        class="send-message-button-pink"
+      >
+        <mat-icon>send</mat-icon>
         Enviar Mensagem
       </button>
-    </form>
-  </mat-card>
+    </div>
+  </form>
 </div>
 
-<div *ngIf="!product" class="no-product-message">
-  <p>Produto não encontrado.</p>
-</div>
+<div *ngIf="!product" class="empty-state"></div>

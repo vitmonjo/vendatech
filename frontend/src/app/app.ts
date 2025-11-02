@@ -35,7 +35,9 @@ export class App implements OnInit {
       duration: 8000, // 8 segundos para dar tempo de clicar
       horizontalPosition: 'end',
       verticalPosition: 'top',
-      panelClass: ['price-alert-snackbar']
+      panelClass: ['price-alert-snackbar'],
     });
   }
+
+  public currentYear: number = new Date().getFullYear();
 }

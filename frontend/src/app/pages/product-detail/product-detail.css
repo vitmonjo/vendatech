@@ -1,49 +1,193 @@
+/* --- Container Principal --- */
 .product-detail-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* Espaçamento entre os cards */
-  max-width: 900px;
+  gap: 1.5rem; /* Diminuído o gap para a nova estrutura */
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 1rem;
 }
 
-.product-card,
-.message-card {
-  border-radius: 8px; /* Bordas arredondadas */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
-  transition: transform 0.3s ease; /* Transição para interatividade */
+/* --- Layout do Card Principal (Grid) --- */
+.product-layout {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  gap: 2.5rem;
+  padding: 1rem;
+
+  /* NOVO: Altura mínima para o card "aumentar" */
+  min-height: 520px;
 }
 
-.product-card:hover {
-  transform: translateY(-5px); /* Efeito de elevação no hover */
-}
+/* ... (Todos os estilos do .product-image-wrapper, .product-info-wrapper,
+      .product-tags, h1, .price, .product-stock, .description
+      permanecem os mesmos da resposta anterior) ... */
 
-.product-header {
-  border-radius: 8px 8px 0 0;
-  overflow: hidden;
-  height: 450px;
-}
-
-.product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.product-info h1 {
-  color: var(--azure-black);
-  margin-bottom: 0.5rem;
-}
-
-.price {
-  font-size: 2.5em;
-  font-weight: 600;
-  color: var(--azure-dark-blue);
-}
-
-.product-actions {
+.product-image-wrapper {
+  background-color: var(--azure-white, #fff);
+  border-radius: var(--border-radius-md, 8px);
   padding: 1rem;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.product-image {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
+}
+.product-info-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.product-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.product-tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-sm, 4px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--azure-white, #fff);
+  flex-shrink: 0;
+}
+.category-tag {
+  background-color: var(--azure-blue, #0078d4);
+}
+.stock-tag.in-stock {
+  background-color: var(--azure-success, #107c10);
+}
+.stock-tag.out-of-stock {
+  background-color: var(--azure-error, #d13438);
+}
+.product-info-wrapper h1 {
+  color: var(--azure-black, #252423);
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 2.25rem;
+  line-height: 1.2;
+}
+.price {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--azure-blue, #0078d4);
+  margin-bottom: 1rem;
+}
+.product-stock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--azure-dark-gray, #605e5c);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+.product-stock mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--azure-blue, #0078d4);
+}
+.description {
+  font-size: 1rem;
+  color: var(--azure-dark-gray, #605e5c);
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: auto;
+  padding-bottom: 2rem;
+}
+
+/* Ações do Produto */
+.product-actions {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 1rem;
+  margin-top: auto;
+}
+.product-actions button {
+  padding: 0 1.5rem;
+  height: 48px;
+  font-size: 1rem;
+}
+
+/* --- NOVO: Seção de Mensagens --- */
+
+.message-section-title {
+  color: var(--azure-black, #252423);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+.message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espaço entre o card e o botão */
+}
+
+/* Card SÓ para o textarea */
+.message-card {
+  padding: 0.5rem 0.5rem 0 0.5rem; /* Padding mínimo */
+}
+
+/* Remove o padding do form-field para ele "colar" no card */
+.message-card .mat-mdc-form-field {
+  padding-bottom: 0;
+}
+
+/* Remove a borda do outline, o card já faz a borda */
+.message-card .mat-mdc-form-field .mdc-notched-outline__leading,
+.message-card .mat-mdc-form-field .mdc-notched-outline__notch,
+.message-card .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-width: 0 !important;
+}
+
+.message-submit-wrapper {
+  display: flex;
+  justify-content: flex-end; /* Alinha o botão à direita */
+}
+
+/* NOVO: Botão Rosa Oval (Copiado de products.css) */
+.send-message-button-pink {
+  background-color: #e91e63; /* Cor Rosa/Vermelha */
+  color: #ffffff;
+  border-radius: 50px; /* Transforma em "oval" (pill-shape) */
+  padding: 0 1.5rem;
+  height: 48px; /* Altura maior */
+  font-size: 0.9rem;
+
+  /* Adiciona ícone (novo) */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- Responsividade (Mantida) --- */
+@media (max-width: 768px) {
+  .product-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    min-height: auto; /* Remove altura mínima no mobile */
+  }
+  .product-image {
+    max-height: 300px;
+  }
+  .description {
+    margin-bottom: 2rem;
+  }
+}
+
+/* --- CORREÇÃO PALIATIVA (Mantida) --- */
+.buy-now-button.mat-mdc-raised-button {
+  background-color: #0078d4;
+  color: #ffffff;
+}
+.add-to-cart-button.mat-mdc-raised-button {
+  background-color: #107c10;
+  color: #ffffff;
 }

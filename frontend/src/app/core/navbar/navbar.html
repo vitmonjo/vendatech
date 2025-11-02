@@ -5,22 +5,38 @@
   <span class="spacer"></span>
   <div class="nav-links">
     <a mat-button routerLink="/products">Produtos</a>
-    <a mat-button routerLink="/cart"> <mat-icon>shopping_cart</mat-icon> Carrinho </a>
-    
-    <!-- Usuário não logado -->
+    <a mat-button routerLink="/cart">
+      <span class="nav-icon-wrapper">
+        <mat-icon>shopping_cart</mat-icon>
+      </span>
+      Carrinho
+    </a>
+
     <ng-container *ngIf="!(isLoggedIn$ | async)">
-      <a mat-button routerLink="/login">Login</a>
-      <a mat-raised-button color="accent" routerLink="/register">Criar Conta</a>
+      <a mat-button routerLink="/login" class="oval-button">Login</a>
+      <a mat-raised-button color="accent" routerLink="/register" class="oval-button">Criar Conta</a>
     </ng-container>
-    
-    <!-- Usuário logado -->
+
     <ng-container *ngIf="isLoggedIn$ | async">
-      <button mat-button [matMenuTriggerFor]="userMenu">
-        <mat-icon>account_circle</mat-icon>
-        {{ (currentUser$ | async)?.name }}
-        <mat-icon>arrow_drop_down</mat-icon>
-      </button>
-      
+      <ng-container *ngIf="currentUser$ | async as user; else loadingUser">
+        <button mat-button class="user-menu-button" [matMenuTriggerFor]="userMenu">
+          <span class="nav-icon-wrapper">
+            <mat-icon>account_circle</mat-icon>
+          </span>
+          {{ user.name }}
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+      </ng-container>
+
+      <ng-template #loadingUser>
+        <button mat-button class="user-menu-button" disabled>
+          <span class="nav-icon-wrapper">
+            <mat-icon>account_circle</mat-icon>
+          </span>
+          Carregando...
+        </button>
+      </ng-template>
+
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="/profile">
           <mat-icon>person</mat-icon>
@@ -30,14 +46,18 @@
           <mat-icon>shopping_bag</mat-icon>
           Minhas Compras
         </button>
-        <button mat-menu-item routerLink="/my-products" *ngIf="(currentUser$ | async)?.isAdmin">
-          <mat-icon>inventory</mat-icon>
-          Meus Produtos
-        </button>
-        <button mat-menu-item routerLink="/admin" *ngIf="(currentUser$ | async)?.isAdmin">
-          <mat-icon>admin_panel_settings</mat-icon>
-          Painel Admin
-        </button>
+
+        <ng-container *ngIf="currentUser$ | async as user">
+          <button mat-menu-item routerLink="/my-products" *ngIf="user?.isAdmin">
+            <mat-icon>inventory</mat-icon>
+            Meus Produtos
+          </button>
+          <button mat-menu-item routerLink="/admin" *ngIf="user?.isAdmin">
+            <mat-icon>admin_panel_settings</mat-icon>
+            Painel Admin
+          </button>
+        </ng-container>
+
         <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
           Sair
