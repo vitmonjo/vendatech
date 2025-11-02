@@ -29,6 +29,7 @@
         <mat-card-actions class="product-actions">
           <button
             mat-raised-button
+            color="primary"
             class="buy-now-button"
             (click)="buyNow()"
             [disabled]="product.stock === 0"
@@ -38,6 +39,7 @@
           </button>
           <button
             mat-raised-button
+            color="accent"
             class="add-to-cart-button"
             (click)="addToCart()"
             [disabled]="product.stock === 0"

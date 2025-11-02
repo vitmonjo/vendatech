@@ -1,26 +1,24 @@
-/* src/app/pages/cart/cart.css */
-
 .cart-container {
-  max-width: 900px; /* Voltamos ao max-width original */
-  margin: 2rem auto;
+  max-width: 500px;
+  margin: 1rem auto;
   padding: 1rem;
 }
 
 h2 {
-  text-align: center; /* Voltamos ao centro */
+  text-align: center;
   color: var(--azure-black, #252423);
   margin-bottom: 2rem;
   font-size: 2rem;
 }
 
-/* --- Estado Vazio Modernizado --- */
 .empty-cart-message {
   text-align: center;
   padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  background-color: #e3f2fd;
 }
 .empty-cart-message mat-icon {
   font-size: 64px;
@@ -35,31 +33,30 @@ h2 {
 }
 
 /* --- Layout de Coluna Única --- */
+
 .cart-items {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* --- Card do Item (Alinhamento Corrigido) --- */
 .cart-item-card {
-  display: flex;
-  justify-content: space-between; /* LADO A LADO */
-  align-items: center; /* CENTRALIZADO */
-  padding: 1.5rem;
+  position: relative;
+  padding: 1rem;
 }
 
 .item-info {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 5rem;
+  max-width: 100%;
 }
 
 .item-image {
   width: 100px;
   height: 100px;
   object-fit: contain;
-  border-radius: var(--border-radius-sm, 4px);
+  border-radius: var(--border-radius-sm);
   background-color: var(--azure-white, #fff);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -90,24 +87,33 @@ h2 {
   text-align: center;
 }
 
+.item-actions {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1.5rem;
+}
+
 /* --- Resumo do Pedido (Abaixo da lista) --- */
+
 .cart-summary {
-  padding: 1.5rem 2rem;
-  margin-top: 2rem;
+  padding: 1rem 1rem;
+  margin-top: 0.5rem;
 }
 
 .cart-summary h3 {
   text-align: left;
   margin-top: 0;
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
   margin-bottom: 1.5rem;
   color: var(--azure-dark-gray, #605e5c);
 }
@@ -121,14 +127,9 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: flex-end; /* Alinha à direita (original) */
+  justify-content: flex-end;
   margin-top: 1.5rem;
 }
-
-/* ---
- * CORREÇÃO MANUAL DE CORES
- * (Aplicando as cores manualmente)
---- */
 
 /* Botão Azul (Padrão) */
 .checkout-button.mat-mdc-raised-button {
@@ -180,7 +181,36 @@ h2 {
 }
 
 /* --- Responsividade --- */
+@media (max-width: 900px) {
+  /* No mobile, o grid se desfaz e vira 1 coluna */
+  .cart-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem; /* Reduz o gap */
+  }
+
+  /* O resumo perde o 'sticky' e volta ao fluxo normal */
+  .cart-summary-column {
+    position: static;
+    top: auto;
+  }
+
+  .cart-summary {
+    margin-top: 1rem;
+  }
+
+  .cart-actions {
+    /* No mobile, os botões ficam lado a lado */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+/* Ajuste fino para mobile pequeno */
 @media (max-width: 600px) {
+  h2 {
+    text-align: center;
+  }
   .item-info {
     gap: 1rem;
   }
@@ -191,12 +221,12 @@ h2 {
   .details h3 {
     font-size: 1rem;
   }
-
   .cart-actions {
     justify-content: stretch;
-    flex-direction: column-reverse; /* Botão Azul (Primário) vem por último */
+    flex-direction: column-reverse; /* Stacka e inverte */
   }
-  .cart-actions button {
+  .cart-actions button,
+  .cart-actions a {
     width: 100%;
   }
 }

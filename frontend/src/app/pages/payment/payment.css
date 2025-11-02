@@ -1,35 +1,30 @@
-/* --- Layout Padrão --- */
 .payment-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem; /* Padding padrão */
+  padding: 2rem 1rem;
 
-  /* ATUALIZADO: Fundo padrão do site */
   background-color: var(--azure-light-gray, #f8f9fa);
+}
 
-  /* REMOVIDO: min-height, background: linear-gradient */
+.payment-form-card {
+  background-color: #e3f2fd;
 }
 
 /* --- Cabeçalho Padrão --- */
 .payment-header {
   text-align: center;
   margin-bottom: 2rem;
-
-  /* ATUALIZADO: Cor padrão de texto */
   color: var(--azure-black, #252423);
 }
 
 .payment-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-
-  /* REMOVIDO: text-shadow */
 }
 
 .payment-header p {
   font-size: 1.2rem;
-
-  /* ATUALIZADO: Cor padrão de subtexto */
+  font-weight: 500;
   color: var(--azure-dark-gray, #605e5c);
   opacity: 1;
 }
@@ -40,11 +35,6 @@
   gap: 2rem;
   align-items: start;
 }
-
-/* * ATUALIZADO: Estilos .order-summary-card e .payment-form-card REMOVIDOS
- * Deixamos o styles.scss global (com .mat-card) cuidar
- * das bordas, sombras e backgrounds dos cards.
- */
 
 /* --- Estilos Internos: Resumo do Pedido --- */
 .order-items {
@@ -129,14 +119,6 @@
   gap: 1rem;
 }
 
-/* * REMOVIDO: Regras antigas de .form-actions button
- * e .form-actions button[color="primary"]
- */
-
-/* ---
- * NOVO: CORREÇÃO MANUAL DE CORES (Padrão Enterprise)
---- */
-
 /* Botão Azul (Finalizar Pagamento) */
 .checkout-button.mat-mdc-raised-button {
   background-color: #0078d4; /* Azul */
@@ -198,6 +180,7 @@
 .payment-form-card,
 .order-summary-card {
   animation: slideInUp 0.6s ease-out;
+  background-color: #e3f2fd;
 }
 @keyframes slideInUp {
   /* ... (mantido) ... */

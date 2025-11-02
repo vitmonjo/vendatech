@@ -4,7 +4,9 @@
     <mat-card *ngIf="cartItems.length === 0" class="empty-cart-message">
       <mat-icon>shopping_cart_off</mat-icon>
       <p>Seu carrinho está vazio.</p>
-      <a mat-raised-button class="checkout-button" routerLink="/products"> Continuar Comprando </a>
+      <a mat-raised-button color="primary" class="checkout-button" routerLink="/products">
+        Continuar Comprando
+      </a>
     </mat-card>
 
     <div class="cart-items" *ngIf="cartItems.length > 0">
@@ -17,6 +19,7 @@
             <div class="quantity-control">
               <button
                 mat-icon-button
+                color="primary"
                 class="quantity-button"
                 (click)="updateQuantity(item._id!, -1)"
               >
@@ -25,6 +28,7 @@
               <span>{{ item.quantity }}</span>
               <button
                 mat-icon-button
+                color="primary"
                 class="quantity-button"
                 (click)="updateQuantity(item._id!, 1)"
               >
@@ -34,28 +38,30 @@
           </div>
         </div>
         <div class="item-actions">
-          <button mat-icon-button class="remove-item-button" (click)="removeFromCart(item._id!)">
+          <button
+            mat-icon-button
+            color="warn"
+            class="remove-item-button"
+            (click)="removeFromCart(item._id!)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </div>
       </mat-card>
-
       <mat-card class="cart-summary">
         <h3>Resumo do Pedido</h3>
-
         <div class="summary-row">
           <span>Total</span>
           <strong>{{ cartTotal$ | async | brazilianCurrency }}</strong>
         </div>
-
         <div class="cart-actions">
           <button mat-button class="clear-cart-button" (click)="clearCart()">
             <mat-icon>delete_sweep</mat-icon>
             Limpar Carrinho
           </button>
-
           <button
             mat-raised-button
+            color="primary"
             class="checkout-button"
             (click)="proceedToPayment()"
             [disabled]="(cartItems$ | async)?.length === 0"

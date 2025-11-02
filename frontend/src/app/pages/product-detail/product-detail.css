@@ -14,14 +14,7 @@
   grid-template-columns: 40% 1fr;
   gap: 2.5rem;
   padding: 1rem;
-
-  /* NOVO: Altura mínima para o card "aumentar" */
-  min-height: 520px;
 }
-
-/* ... (Todos os estilos do .product-image-wrapper, .product-info-wrapper,
-      .product-tags, h1, .price, .product-stock, .description
-      permanecem os mesmos da resposta anterior) ... */
 
 .product-image-wrapper {
   background-color: var(--azure-white, #fff);

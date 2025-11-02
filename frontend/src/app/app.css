@@ -3,13 +3,9 @@
   flex-direction: column;
   min-height: 100vh;
 }
-
 main.main-content {
   flex: 1;
-  padding: 2rem;
-  animation: fadeIn 0.4s ease-out;
 }
-
 .app-footer {
   width: 100%;
   background-color: var(--azure-blue);
@@ -18,7 +14,6 @@ main.main-content {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
   margin-top: auto;
 }
-
 .footer-container {
   display: flex;
   justify-content: space-between;
@@ -26,7 +21,6 @@ main.main-content {
   max-width: 1200px;
   margin: 0 auto;
 }
-
 .footer-logo {
   font-size: 1.25rem;
   font-weight: 600;
@@ -34,45 +28,63 @@ main.main-content {
   text-decoration: none;
   transition: color var(--transition-fast);
 }
-
 .footer-logo:hover {
   color: rgba(255, 255, 255, 0.8);
 }
-
 .footer-copyright {
   font-size: 0.9rem;
   color: var(--azure-light-gray);
+  text-align: center;
 }
 
-.footer-links {
+/* --- ATUALIZADO: Estilos da Equipe (Sem Links) --- */
+.footer-team {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   gap: 8px;
 }
 
-.footer-links a[mat-button] {
-  color: var(--azure-white);
+.team-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
   font-weight: 500;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  transition: background-color var(--transition-fast);
+  color: var(--azure-light-gray);
+}
+.team-title mat-icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
 }
 
-.footer-links a[mat-button]:hover {
-  background-color: var(--azure-dark-blue);
+.team-members {
+  display: flex;
+  gap: 16px;
 }
 
+.team-members span {
+  color: var(--azure-white);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* --- Responsividade (Ajustada) --- */
 @media (max-width: 768px) {
-  main.main-content {
-    padding: 1rem;
-  }
-
   .footer-container {
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
   }
-
-  .footer-links {
-    gap: 1rem;
+  .footer-copyright {
+    order: 2;
+  }
+  .footer-team {
+    order: 1;
+    align-items: center;
+  }
+  .team-members {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

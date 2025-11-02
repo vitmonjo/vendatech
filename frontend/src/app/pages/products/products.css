@@ -5,6 +5,17 @@
   padding: 0.5rem;
 }
 
+.product-description {
+  font-size: 1rem;
+  color: var(--azure-dark-gray);
+  height: 3.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
 /* --- Seção de Filtros (Responsiva) --- */
 .filters-card {
   padding: 1.5rem;
@@ -49,11 +60,27 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   justify-items: center;
+
+  /* --- [NOVO EFEITO] Animação de Zoom na Imagem --- */
+  .product-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+  }
+  .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-out;
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.08);
+  }
 }
 
-/* --- Estilos *Específicos* do Card de Produto --- */
-
-/* Imagem */
 .product-image-container {
   position: relative;
 }
@@ -113,16 +140,6 @@
   background-color: var(--azure-error);
 }
 
-.product-description {
-  font-size: 0.9rem;
-  color: var(--azure-dark-gray);
-  height: 3.2em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 500;
-  margin-top: 0.5rem; /* Ajuste de espaço */
-}
-
 .product-stock {
   display: flex;
   align-items: center;
@@ -162,14 +179,7 @@ mat-card-actions {
   background-color: rgba(255, 179, 0, 0.08);
 }
 
-/* Estilo para o painel do select (dropdown) */
-:host ::ng-deep .mat-mdc-select-panel {
-  background-color: #ffffff !important;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-    0 3px 14px 2px rgba(0, 0, 0, 0.12);
-}
-
-:host .mat-raised-button[color='primary'] {
-  background-color: var(--azure-blue);
-  color: var(--azure-white);
+mat-card-actions button[color='primary'].mat-mdc-raised-button {
+  background-color: #0078d4; /* Azul (Manual) */
+  color: #ffffff; /* Branco */
 }

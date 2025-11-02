@@ -1,9 +1,26 @@
 @use '@angular/material' as mat;
+
+// Inclui as definições base (tokens de cor e tipografia)
 @include mat.core();
 
-/*
- * 2. Definição das Variáveis CSS (Sua "Fonte da Verdade")
- */
+// Cria um tema claro
+$vendatech-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      brand-family: 'Roboto',
+    ),
+  )
+);
+
+// Aplica o tema globalmente
+:root {
+  @include mat.all-component-themes($vendatech-theme);
+}
 :root {
   --azure-blue: #0078d4;
   --azure-dark-blue: #005a9e;
@@ -277,19 +294,4 @@ input:focus-visible,
   outline: 2px solid var(--azure-blue);
   outline-offset: 2px;
   border-radius: var(--border-radius-sm);
-}
-
-/* Para o Dropdown do Menu de Usuário (mat-menu) */
-.mat-mdc-menu-panel {
-  background-color: white; /* ou var(--azure-white) se você tiver */
-
-  /* A imagem mostra que ele também perdeu a sombra;
-     isto restaura a elevação padrão. */
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-    0 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
-}
-
-/* Para o Dropdown de Categoria (mat-select) */
-.mat-mdc-select-panel {
-  background-color: white; /* ou var(--azure-white) */
 }

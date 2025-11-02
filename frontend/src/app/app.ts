@@ -1,15 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Navbar } from './core/navbar/navbar';
 import { fader } from './animations'; // Vamos criar este arquivo
 import { AlertService, PriceAlert } from './services/alert.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PriceAlertComponent } from './core/price-alert/price-alert';
+import { MatIconModule } from '@angular/material/icon';
+import { Navbar } from './core/navbar/navbar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Navbar],
+  imports: [RouterOutlet, Navbar, MatIconModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   animations: [fader],
