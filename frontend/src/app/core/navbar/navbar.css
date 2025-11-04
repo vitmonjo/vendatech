@@ -1,6 +1,6 @@
 .navbar-custom {
   height: 64px;
-  background-color: #0078d4;
+  background-color: #0078d4; /* Cor Azul (Manual) */
   color: white;
   padding: 0 24px;
   display: flex;
@@ -31,6 +31,7 @@
 }
 
 /* Links padrão (Produtos, Carrinho, Nome de Usuário) */
+/* (Esta regra EXCLUI os botões ovais) */
 .nav-links a[mat-button]:not(.oval-button),
 .nav-links button[mat-button] {
   color: white;
@@ -48,32 +49,44 @@
 
 .nav-links a[mat-button]:not(.oval-button):hover,
 .nav-links button[mat-button]:hover {
-  /* MANTIDO: Hover customizado */
-  background-color: var(--azure-dark-blue);
+  background-color: #005a9e; /* Azul Escuro (Manual) */
 }
 
-/* --- Estilo Oval Branco (Login/Criar Conta) --- */
-/* MANTIDO: Este é um estilo de design customizado */
-.nav-links ng-container a[mat-button],
-.nav-links ng-container a[mat-raised-button] {
-  background-color: var(--azure-white); /* LIMPO */
-  color: var(--azure-blue); /* LIMPO */
-  font-weight: 600;
-  border-radius: 50px;
+/* * =========================================================
+ * [CORRIGIDO] Estilo "Oval Branco" para Login e Criar Conta
+ * =========================================================
+ */
+/* Usamos a classe .oval-button que está no HTML */
+.nav-links a.oval-button {
+  background-color: #ffffff;  /* Fundo Branco */
+  color: #0078d4;            /* Fonte Azul */
+  font-weight: 600;           /* Semi-Bold */
+  border-radius: 50px;        /* Oval */
+  
+  /* Polimento de UX */
   height: 40px;
   padding: 0 1.5rem;
   font-size: 0.875rem;
+  
+  /* Sombra Padrão (igual da Home) */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-out;
+  
+  /* Garante alinhamento flex */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.nav-links ng-container a[mat-button]:hover,
-.nav-links ng-container a[mat-raised-button]:hover {
-  background-color: #f5f5f5; /* Hover customizado mantido */
-  color: var(--azure-dark-blue); /* LIMPO */
+/* Efeito Hover (para ambos os botões ovais) */
+.nav-links a.oval-button:hover {
+  background-color: #f5f5f5;
+  color: #005a9e; /* Azul mais escuro */
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mais forte no hover */
 }
+/* --- Fim da Correção --- */
+
 
 /* --- ÍCONES (Mantido) --- */
 .nav-icon-wrapper {
@@ -88,4 +101,11 @@
 }
 .user-menu-button mat-icon:not(.nav-icon-wrapper mat-icon) {
   opacity: 0.8;
+}
+
+/* --- Fundo do Dropdown (Forçado) --- */
+:host ::ng-deep .mat-mdc-menu-panel {
+  background-color: #ffffff !important;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
 }

@@ -1,47 +1,58 @@
+/* admin.css (Refatorado e Limpo - Padrão Azure) */
+
 .admin-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem 1rem; /* Padding da página */
 }
 
-.admin-header {
-  text-align: center;
-  margin-bottom: 30px;
+/* NOVO: Título da Página Padronizado (substitui .admin-header) */
+.page-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: var(--azure-black);
 }
-
-.admin-header h1 {
-  color: #2c3e50;
-  margin-bottom: 10px;
+.page-title mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--azure-blue);
+  margin-bottom: 0.5rem;
+}
+.page-title h1 {
   font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
-
-.admin-header p {
-  color: #7f8c8d;
-  font-size: 1.1rem;
+.page-title p {
+  font-size: 1.2rem;
+  color: var(--azure-dark-gray);
+  margin: 0;
 }
+/* .admin-header REMOVIDO */
 
 .admin-content {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 2rem; /* Gap Padrão */
 }
 
 .product-form-card,
 .products-list-card {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  background-color: var(--azure-light-blue, #e3f2fd);
 }
 
 .product-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem; /* Gap Padrão */
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
 .form-field {
@@ -54,29 +65,36 @@
 
 .form-actions {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 1rem;
 }
 
+/* Ajusta altura e ícones dos botões do formulário */
 .form-actions button {
   min-width: 150px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
+/* --- Estados (Loading / Vazio) --- */
 .loading {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 40px;
-  color: #7f8c8d;
+  padding: 3rem;
+  color: var(--azure-dark-gray);
   font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .loading mat-icon {
   animation: spin 1s linear infinite;
 }
-
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -84,64 +102,59 @@
 
 .empty-state {
   text-align: center;
-  padding: 40px;
-  color: #7f8c8d;
+  padding: 3rem;
+  color: var(--azure-dark-gray);
 }
-
 .empty-state mat-icon {
   font-size: 4rem;
   width: 4rem;
   height: 4rem;
-  margin-bottom: 20px;
-  color: #bdc3c7;
+  margin-bottom: 1rem;
+  color: var(--azure-gray);
 }
-
 .empty-state p {
-  margin: 10px 0;
+  margin: 0.5rem 0;
   font-size: 1.1rem;
+  font-weight: 500;
 }
 
+/* --- Tabela --- */
 .table-container {
   overflow-x: auto;
 }
 
 .products-table {
   width: 100%;
-  border-collapse: collapse;
 }
 
-.products-table th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  color: #2c3e50;
-  padding: 15px 10px;
-  text-align: left;
-  border-bottom: 2px solid #e9ecef;
-}
+/* .products-table th REMOVIDO
+ * (O .mat-header-cell global do styles.scss cuida disso)
+ */
 
 .products-table td {
-  padding: 15px 10px;
-  border-bottom: 1px solid #e9ecef;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid var(--azure-light-blue);
   vertical-align: middle;
 }
 
 .product-info {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1rem;
 }
 
 .product-image {
   width: 50px;
   height: 50px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  object-fit: contain;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--azure-light-blue);
+  background-color: var(--azure-white);
 }
 
 .product-name {
   font-weight: 500;
-  color: #2c3e50;
+  color: var(--azure-black);
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -150,57 +163,52 @@
 
 .price {
   font-weight: 600;
-  color: #27ae60;
-  font-size: 1.1rem;
+  color: var(--azure-black); /* Padronizado (não verde) */
+  font-size: 1rem;
 }
 
 .category-badge {
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: var(--azure-light-blue);
+  color: var(--azure-blue);
   padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  border-radius: 50px; /* Padrão Oval */
+  font-size: 0.85rem;
   font-weight: 500;
 }
 
 .stock-available {
-  color: #27ae60;
+  color: var(--azure-success);
   font-weight: 500;
 }
 
 .stock-empty {
-  color: #e74c3c;
+  color: var(--azure-error);
   font-weight: 500;
 }
 
-.products-table button {
-  margin: 0 5px;
-}
+/* .products-table button REMOVIDO
+ * (O color="primary" e color="warn" do HTML cuidam disso)
+ */
 
 /* Responsive */
 @media (max-width: 768px) {
   .admin-container {
-    padding: 15px;
+    padding: 1rem 0.5rem;
   }
-  
   .form-row {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
-  
   .form-actions {
-    flex-direction: column;
+    flex-direction: column-reverse; /* Ação primária por último */
   }
-  
   .form-actions button {
     width: 100%;
   }
-  
   .product-info {
-    flex-direction: column;
-    align-items: flex-start;
+    /* (Removido o flex-direction: column) */
     gap: 8px;
   }
-  
   .product-name {
     max-width: 150px;
   }

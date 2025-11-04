@@ -1,82 +1,100 @@
+/* orders.css (Refatorado e Limpo) */
+
 .order-history-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 2rem 1rem;
+  /* background: linear-gradient... REMOVIDO */
+  /* min-height REMOVIDO (deixamos o :host do app.css cuidar) */
 }
 
-.order-history-header {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #333;
+/* NOVO: Título da Página Padronizado */
+.page-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: var(--azure-black);
 }
-
-.order-history-header h1 {
+.page-title mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--azure-blue);
+  margin-bottom: 0.5rem;
+}
+.page-title h1 {
   font-size: 2.5rem;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 0.5rem;
 }
-
-.order-history-header p {
+.page-title p {
   font-size: 1.2rem;
-  opacity: 0.8;
+  color: var(--azure-dark-gray);
+  margin: 0;
 }
+/* .order-history-header REMOVIDO */
 
+/* --- Loading --- */
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
-  color: #666;
+  padding: 4rem 1rem;
+  color: var(--azure-dark-gray);
 }
-
 .loading-container p {
-  margin-top: 20px;
+  margin-top: 1.5rem;
   font-size: 1.1rem;
+  font-weight: 500;
 }
 
-.empty-state {
+/* --- Estado Vazio (Padronizado) --- */
+.empty-state-card {
   text-align: center;
-  padding: 60px 20px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: #e3f2fd;
 }
-
-.empty-state mat-icon {
-  font-size: 80px;
-  width: 80px;
-  height: 80px;
-  color: #ccc;
-  margin-bottom: 20px;
+.empty-state-card mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: var(--azure-gray);
 }
-
-.empty-state h3 {
-  color: #333;
-  margin-bottom: 10px;
+.empty-state-card h3 {
+  color: var(--azure-black);
+  margin-bottom: 0.5rem;
 }
-
-.empty-state p {
-  color: #666;
-  margin-bottom: 30px;
+.empty-state-card p {
+  color: var(--azure-dark-gray);
+  margin-bottom: 1.5rem;
 }
+/* Estilo do botão "Começar a Comprar" */
+.start-shopping-button.mat-mdc-raised-button {
+  height: 48px;
+  font-size: 1rem;
+  padding: 0 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+/* O color="primary" do HTML vai aplicar o azul/branco */
 
+
+/* --- Lista de Pedidos --- */
 .orders-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
-.order-card {
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.2);
-  animation: slideInUp 0.6s ease-out;
-}
+/* .order-card REMOVIDO (O .mat-card global cuida) */
+/* .order-card animation REMOVIDA (usamos a do .fade-in) */
 
 .order-header-info {
   display: flex;
@@ -86,172 +104,147 @@
 }
 
 .order-info h3 {
-  color: #333;
+  color: var(--azure-black);
   margin: 0 0 5px 0;
   font-size: 1.3rem;
 }
 
 .order-date {
-  color: #666;
+  color: var(--azure-dark-gray);
   margin: 0;
   font-size: 0.9rem;
 }
 
+/* Badges de Status (Mantido, cores boas) */
 .status-badge {
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: 50px; /* Oval */
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
 }
-
 .status-completed {
-  background: #e8f5e8;
+  background: #e8f5e9;
   color: #2e7d32;
 }
-
 .status-pending {
   background: #fff3e0;
   color: #f57c00;
 }
-
 .status-cancelled,
 .status-refunded {
   background: #ffebee;
   color: #d32f2f;
 }
 
+/* Itens do Pedido */
 .order-items {
-  margin: 20px 0;
+  margin: 1.5rem 0;
 }
-
 .order-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 15px 0;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--azure-light-blue);
 }
-
 .order-item:last-child {
   border-bottom: none;
 }
-
 .item-image {
   width: 60px;
   height: 60px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  object-fit: contain;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
-
 .item-details h4 {
   margin: 0 0 5px 0;
-  color: #333;
+  color: var(--azure-black);
   font-size: 1rem;
+  font-weight: 600;
 }
-
 .item-quantity {
   margin: 0 0 5px 0;
-  color: #666;
+  color: var(--azure-dark-gray);
   font-size: 0.9rem;
 }
-
 .item-price {
   margin: 0;
-  color: #2e7d32;
+  color: var(--azure-black);
   font-weight: 600;
   font-size: 1rem;
 }
 
+/* Resumo do Pedido (Dentro do Card) */
 .order-summary {
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 20px;
+  background: var(--azure-light-gray);
+  border-radius: var(--border-radius-md);
+  padding: 1rem;
+  margin-top: 1rem;
 }
-
 .order-total {
   text-align: right;
   font-size: 1.2rem;
-  color: #1976d2;
+  color: var(--azure-blue);
+  font-weight: 600;
   margin-bottom: 10px;
 }
-
+.order-total strong {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
 .order-transaction p {
   margin: 0;
-  color: #666;
+  color: var(--azure-dark-gray);
   font-size: 0.9rem;
   font-family: 'Courier New', monospace;
+  text-align: right;
 }
 
+/* Botão "Ver Detalhes" Amarelo (Padrão) */
+.details-button {
+  color: #ffb300;
+}
+.details-button:hover {
+  background-color: rgba(255, 179, 0, 0.08);
+}
+
+/* --- Paginação --- */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin: 30px 0;
+  gap: 0.5rem;
+  margin: 3rem 0 1rem;
   flex-wrap: wrap;
 }
 
-.pagination button {
-  min-width: 40px;
-  height: 40px;
-  border-radius: 20px;
+/* Botão de número de página (pequeno e quadrado) */
+.page-number-button {
+  min-width: 40px !important;
+  max-width: 40px !important;
+  padding: 0 !important;
 }
 
+/* --- Resumo (Mantido) --- */
 .summary {
   text-align: center;
-  color: #666;
+  color: var(--azure-dark-gray);
   font-size: 0.9rem;
-  margin-top: 20px;
+  margin-top: 1.5rem;
 }
 
-/* Animações */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsividade */
+/* --- Responsividade (Ajustada) --- */
 @media (max-width: 768px) {
   .order-history-container {
-    padding: 15px;
+    padding: 1rem 0.5rem;
   }
-  
-  .order-history-header h1 {
+  .page-title h1 {
     font-size: 2rem;
   }
-  
   .order-header-info {
     flex-direction: column;
     gap: 10px;
-  }
-  
-  .order-item {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-  }
-  
-  .item-image {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .pagination {
-    gap: 5px;
-  }
-  
-  .pagination button {
-    min-width: 35px;
-    height: 35px;
-    font-size: 0.9rem;
   }
 }

@@ -10,12 +10,13 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   imports: [RouterLink, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar implements OnInit {
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
   
   isLoggedIn$!: Observable<boolean>;
   currentUser$!: Observable<User | null>;

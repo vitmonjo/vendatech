@@ -37,7 +37,7 @@
         </button>
       </ng-template>
 
-      <mat-menu #userMenu="matMenu">
+  <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="/profile">
           <mat-icon>person</mat-icon>
           Meu Perfil
@@ -48,10 +48,17 @@
         </button>
 
         <ng-container *ngIf="currentUser$ | async as user">
+          
           <button mat-menu-item routerLink="/my-products" *ngIf="user?.isAdmin">
             <mat-icon>inventory</mat-icon>
             Meus Produtos
           </button>
+          
+          <button mat-menu-item routerLink="/my-products/new" *ngIf="user?.isAdmin">
+            <mat-icon>add_shopping_cart</mat-icon>
+            Adicionar Produto
+          </button>
+          
           <button mat-menu-item routerLink="/admin" *ngIf="user?.isAdmin">
             <mat-icon>admin_panel_settings</mat-icon>
             Painel Admin

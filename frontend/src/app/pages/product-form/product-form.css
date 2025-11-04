@@ -1,101 +1,94 @@
-/* product-form.css */
 .product-form-container {
-  max-width: 600px;
+  max-width: 700px; /* Um pouco mais de espaço para o form */
   margin: 2rem auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  padding: 0 1rem; /* Padding do container da página */
 }
 
-.product-form-container:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+.product-form-card,
+.products-list-card {
+  background-color: var(--azure-light-blue, #e3f2fd);
 }
 
-.product-form-container h2 {
-  margin: 0 0 2rem 0;
-  color: var(--azure-black);
-  font-weight: 600;
-  font-size: 1.75rem;
+.product-form-card mat-card-header {
+  padding: 2rem 2rem 1rem;
+}
+
+.product-form-card mat-card-title {
   text-align: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--azure-black);
 }
 
-.product-form-container form {
+.product-form-card mat-card-content {
+  padding: 1rem 2rem 2rem;
+}
+
+.product-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.5rem; /* Espaço entre os campos */
 }
 
-/* Estilização dos campos de formulário */
-mat-form-field {
-  width: 100%;
-}
-
-mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
-  color: rgba(0, 0, 0, 0.12);
-}
-
-mat-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: var(--azure-blue);
-}
-
-mat-form-field.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  margin: 0;
-}
-
-/* Botões */
 .form-actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+  align-items: center;
   margin-top: 1rem;
+  flex-wrap: wrap; /* Para mobile */
 }
 
-button[type='submit'] {
+/* Botão de Submit (Azul, Padrão do Tema) */
+.submit-button.mat-mdc-raised-button {
+  height: 48px;
+  font-size: 1rem;
   padding: 0 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+/* O color="primary" do HTML vai aplicar o azul/branco */
+
+
+/* NOVO: Botão Cancelar (Rosa Oval, Padrão) */
+.cancel-button-pink.mat-mdc-button {
+  background-color: #e91e63; /* Rosa */
+  color: var(--azure-white);
+  border-radius: 50px;
+  height: 48px;
+  font-size: 0.9rem;
+  border: none;
+  padding: 0 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.cancel-button-pink:hover {
+  background-color: #d81b60; /* Rosa mais escuro */
 }
 
-button[type='submit']:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
-}
 
-a[mat-button] {
-  color: var(--azure-gray);
-  transition: all 0.2s ease;
-}
-
-a[mat-button]:hover {
-  color: var(--azure-blue);
-  background-color: rgba(0, 120, 212, 0.04);
-}
-
-/* Animações para os campos */
-mat-form-field {
-  transition: transform 0.2s ease;
-}
-
-mat-form-field:focus-within {
-  transform: translateY(-2px);
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
+/* --- Responsividade --- */
+@media (max-width: 600px) {
   .product-form-container {
-    margin: 1rem;
-    padding: 1.5rem;
+    margin: 1rem auto;
+    padding: 0;
+  }
+  
+  .product-form-card mat-card-content {
+    padding: 1rem 1.5rem 1.5rem;
   }
 
   .form-actions {
-    flex-direction: column;
+    flex-direction: column-reverse; /* Ação primária por último */
+    align-items: stretch;
   }
 
-  button,
-  a[mat-button] {
+  .form-actions button,
+  .form-actions a {
     width: 100%;
   }
 }
