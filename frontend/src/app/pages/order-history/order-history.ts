@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { OrderService, Order } from '../../services/order.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-order-history',
@@ -17,7 +18,8 @@ import { OrderService, Order } from '../../services/order.service';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    RouterLink
+    RouterLink,
+    BrazilianCurrencyPipe
   ],
   templateUrl: './order-history.html',
   styleUrl: './order-history.css',

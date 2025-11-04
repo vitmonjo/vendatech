@@ -7,11 +7,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService, LoginRequest } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
+    RouterModule,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -33,14 +42,14 @@ export class Login {
       this.isLoading = true;
       const credentials: LoginRequest = {
         email: this.loginForm.value.email!,
-        password: this.loginForm.value.password!
+        password: this.loginForm.value.password!,
       };
 
       this.authService.login(credentials).subscribe({
         next: (response) => {
           this.isLoading = false;
           this.snackBar.open('Login realizado com sucesso!', 'Fechar', { duration: 3000 });
-          
+
           // Redirecionar baseado no tipo de usuário
           if (response.data.user.isAdmin) {
             this.router.navigate(['/admin']);
@@ -51,12 +60,10 @@ export class Login {
         error: (error) => {
           this.isLoading = false;
           console.error('Erro de login:', error);
-          this.snackBar.open(
-            error.error?.message || 'E-mail ou senha inválidos.',
-            'Fechar',
-            { duration: 5000 }
-          );
-        }
+          this.snackBar.open(error.error?.message || 'E-mail ou senha inválidos.', 'Fechar', {
+            duration: 5000,
+          });
+        },
       });
     }
   }

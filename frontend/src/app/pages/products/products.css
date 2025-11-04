@@ -1,91 +1,185 @@
-.filters-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.filters-row mat-form-field {
-  flex-grow: 1;
-}
-
+/* products.css (Refatorado) */
 .products-container {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: 1rem auto;
+  padding: 0.5rem;
 }
 
+.product-description {
+  font-size: 1rem;
+  color: var(--azure-dark-gray);
+  height: 3.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* --- Seção de Filtros (Responsiva) --- */
+.filters-card {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: #e3f2fd;
+}
+
+.filters-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.filter-field {
+  flex: 1 1 250px;
+}
+
+.filter-actions {
+  display: flex;
+  height: 52px;
+}
+
+.clear-filters-btn {
+  background-color: #e91e63; /* Rosa/Vermelho (Pode ser var(--azure-error-dark)) */
+  color: #ffffff;
+  border-radius: 50px; /* Transforma em "oval" (pill-shape) */
+  padding: 0 1.5rem;
+}
+
+/* ... (Media query não muda) ... */
+@media (max-width: 600px) {
+  .filter-actions {
+    flex-basis: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* --- Grid de Produtos --- */
 .products-grid {
   display: grid;
-  /* Cria um grid com colunas flexíveis, no mínimo 300px. Isso se ajusta a 3 colunas em telas grandes e para menos em telas menores. */
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem; /* Espaçamento entre os cards */
+  gap: 1.5rem;
   justify-items: center;
-  margin-top: 2rem;
+
+  /* --- [NOVO EFEITO] Animação de Zoom na Imagem --- */
+  .product-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+  }
+  .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-out;
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.08);
+  }
 }
 
-.product-card {
+.product-image-container {
+  position: relative;
+}
+.product-image {
   width: 100%;
-  max-width: 350px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-.product-card img {
-  width: 100%;
-  height: 200px; /* **Altura fixa** para todas as imagens */
-  /* Ajusta a imagem dentro do espaço, sem cortar, e adiciona um fundo. */
+  height: 200px;
   object-fit: contain;
-  background-color: #f3f2f1;
-  border-radius: 8px 8px 0 0;
+  background-color: var(--azure-white);
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-mat-card-header {
-  padding: 1rem;
-  text-align: left;
+/* NOVO: Classe para a linha flex (Título/Preço + Tags) */
+.product-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-mat-card-title {
+/* NOVO: Estilo para o nome do produto (substitui mat-card-title) */
+.product-name {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #005a9e;
-  margin-bottom: 0.25rem;
+  color: var(--azure-black);
+  /* Evita que o nome quebre a tag */
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-mat-card-subtitle {
-  font-size: 1rem;
-  color: #252423;
-  font-weight: normal;
+.price {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: var(--azure-black) !important;
 }
 
-.card-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0.5rem 1rem 1rem;
-  margin-top: auto;
+.product-tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--azure-white);
+  flex-shrink: 0; /* Impede que a tag encolha */
+}
+
+.category-tag {
+  background-color: var(--azure-blue);
+}
+
+.stock-tag.in-stock {
+  background-color: var(--azure-success);
+}
+
+.stock-tag.out-of-stock {
+  background-color: var(--azure-error);
 }
 
 .product-stock {
   display: flex;
+  align-items: center;
   gap: 8px;
+  color: var(--azure-dark-gray);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+.product-stock mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--azure-blue);
 }
 
-.product-stock > mat-icon {
-  color: var(--mat-button-text-label-text-color, var(--mat-sys-primary));
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem 1rem;
+  margin-top: auto;
 }
 
-/* Responsividade: para telas menores, o grid muda para uma coluna */
-@media (max-width: 768px) {
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
+.products-paginator {
+  margin-top: 2rem;
+  background-color: var(--azure-white);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.details-button {
+  /* Usamos uma cor amarela/ouro para "aviso" ou "visualização" */
+  color: #ffb300;
+}
+
+.details-button:hover {
+  /* Fundo leve no hover para dar feedback */
+  background-color: rgba(255, 179, 0, 0.08);
+}
+
+mat-card-actions button[color='primary'].mat-mdc-raised-button {
+  background-color: #0078d4; /* Azul (Manual) */
+  color: #ffffff; /* Branco */
 }

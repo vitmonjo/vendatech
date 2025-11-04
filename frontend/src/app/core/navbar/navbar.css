@@ -1,17 +1,10 @@
-/* Cores do tema Azure */
-:root {
-  --azure-blue: #0078d4;
-  --azure-dark-blue: #005a9e;
-  --azure-light-gray: #f3f2f1;
-  --azure-gray: #a19f9d;
-  --azure-black: #252423;
-}
-
 .navbar-custom {
   height: 64px;
-  background-color: var(--azure-blue);
+  background-color: #0078d4; /* Cor Azul (Manual) */
   color: white;
   padding: 0 24px;
+  display: flex;
+  align-items: center;
 }
 
 .logo a {
@@ -20,50 +13,99 @@
   color: white;
   text-decoration: none;
   transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
 }
-
 .logo a:hover {
   color: rgba(255, 255, 255, 0.8);
 }
-
 .spacer {
   flex: 1 1 auto;
 }
 
+/* --- Container dos Links de Navegação --- */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 16px; /* Espaçamento entre os botões */
+  gap: 8px;
 }
 
-.nav-links a {
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.nav-links a.mat-button {
+/* Links padrão (Produtos, Carrinho, Nome de Usuário) */
+/* (Esta regra EXCLUI os botões ovais) */
+.nav-links a[mat-button]:not(.oval-button),
+.nav-links button[mat-button] {
   color: white;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  text-transform: none;
+  font-size: 0.875rem;
+  padding: 0 12px;
+  height: 40px;
 }
 
-.nav-links a.mat-button:hover {
-  background-color: var(--azure-dark-blue);
+.nav-links a[mat-button]:not(.oval-button):hover,
+.nav-links button[mat-button]:hover {
+  background-color: #005a9e; /* Azul Escuro (Manual) */
 }
 
-.nav-links a.mat-raised-button {
-  background-color: white;
-  color: var(--azure-dark-blue);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+/* * =========================================================
+ * [CORRIGIDO] Estilo "Oval Branco" para Login e Criar Conta
+ * =========================================================
+ */
+/* Usamos a classe .oval-button que está no HTML */
+.nav-links a.oval-button {
+  background-color: #ffffff;  /* Fundo Branco */
+  color: #0078d4;            /* Fonte Azul */
+  font-weight: 600;           /* Semi-Bold */
+  border-radius: 50px;        /* Oval */
+  
+  /* Polimento de UX */
+  height: 40px;
+  padding: 0 1.5rem;
+  font-size: 0.875rem;
+  
+  /* Sombra Padrão (igual da Home) */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-out;
+  
+  /* Garante alinhamento flex */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.nav-links a.mat-raised-button:hover {
-  transform: translateY(-2px);
+/* Efeito Hover (para ambos os botões ovais) */
+.nav-links a.oval-button:hover {
+  background-color: #f5f5f5;
+  color: #005a9e; /* Azul mais escuro */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mais forte no hover */
+}
+/* --- Fim da Correção --- */
+
+
+/* --- ÍCONES (Mantido) --- */
+.nav-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+.nav-links .mat-button mat-icon,
+.nav-links .mat-raised-button mat-icon {
+  font-size: 24px;
+  height: 24px;
+  width: 24px;
+}
+.user-menu-button mat-icon:not(.nav-icon-wrapper mat-icon) {
+  opacity: 0.8;
 }
 
-/* Estilo para o ícone do carrinho */
-.nav-links a mat-icon {
-  vertical-align: middle;
-  margin-right: 4px;
+/* --- Fundo do Dropdown (Forçado) --- */
+:host ::ng-deep .mat-mdc-menu-panel {
+  background-color: #ffffff !important;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
 }

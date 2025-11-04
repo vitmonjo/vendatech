@@ -83,60 +83,57 @@ export class AuthService {
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     });
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials)
-      .pipe(
-        tap((response) => {
-          if (response.success) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userData', JSON.stringify(response.data.user));
-            this.currentUser.next(response.data.user);
-            this.loggedIn.next(true);
-          }
-        }),
-        catchError((error) => {
-          console.error('Erro no login:', error);
-          return throwError(() => error);
-        })
-      );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response) => {
+        if (response.success) {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('userData', JSON.stringify(response.data.user));
+          this.currentUser.next(response.data.user);
+          this.loggedIn.next(true);
+        }
+      }),
+      catchError((error) => {
+        console.error('Erro no login:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   register(userData: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, userData)
-      .pipe(
-        tap((response) => {
-          if (response.success) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userData', JSON.stringify(response.data.user));
-            this.currentUser.next(response.data.user);
-            this.loggedIn.next(true);
-          }
-        }),
-        catchError((error) => {
-          console.error('Erro no registro:', error);
-          return throwError(() => error);
-        })
-      );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, userData).pipe(
+      tap((response) => {
+        if (response.success) {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('userData', JSON.stringify(response.data.user));
+          this.currentUser.next(response.data.user);
+          this.loggedIn.next(true);
+        }
+      }),
+      catchError((error) => {
+        console.error('Erro no registro:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   getProfile(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/profile`, { headers: this.getAuthHeaders() })
-      .pipe(
-        tap((response) => {
-          if (response.success) {
-            this.currentUser.next(response.data.user);
-          }
-        }),
-        catchError((error) => {
-          console.error('Erro ao obter perfil:', error);
-          return throwError(() => error);
-        })
-      );
+    return this.http.get<any>(`${this.apiUrl}/profile`, { headers: this.getAuthHeaders() }).pipe(
+      tap((response) => {
+        if (response.success) {
+          this.currentUser.next(response.data.user);
+        }
+      }),
+      catchError((error) => {
+        console.error('Erro ao obter perfil:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   logout(): void {
@@ -148,7 +145,8 @@ export class AuthService {
   }
 
   updateProfile(profileData: Partial<User>): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/profile`, profileData, { headers: this.getAuthHeaders() })
+    return this.http
+      .put<any>(`${this.apiUrl}/profile`, profileData, { headers: this.getAuthHeaders() })
       .pipe(
         tap((response) => {
           if (response.success) {

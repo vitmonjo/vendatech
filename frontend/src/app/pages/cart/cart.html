@@ -1,8 +1,12 @@
-<div class="cart-container">
+<div class="cart-container fade-in">
   <h2>Seu Carrinho</h2>
   <ng-container *ngIf="cartItems$ | async as cartItems">
     <mat-card *ngIf="cartItems.length === 0" class="empty-cart-message">
+      <mat-icon>shopping_cart_off</mat-icon>
       <p>Seu carrinho está vazio.</p>
+      <a mat-raised-button color="primary" class="checkout-button" routerLink="/products">
+        Continuar Comprando
+      </a>
     </mat-card>
 
     <div class="cart-items" *ngIf="cartItems.length > 0">
@@ -13,37 +17,57 @@
             <h3>{{ item.name }}</h3>
             <p class="price">{{ item.price | brazilianCurrency }}</p>
             <div class="quantity-control">
-              <button mat-icon-button (click)="updateQuantity(item._id!, -1)">
-                <mat-icon>remove</mat-icon>
+              <button
+                mat-icon-button
+                color="primary"
+                class="quantity-button"
+                (click)="updateQuantity(item._id!, -1)"
+              >
+                <mat-icon>remove_circle</mat-icon>
               </button>
               <span>{{ item.quantity }}</span>
-              <button mat-icon-button (click)="updateQuantity(item._id!, 1)">
-                <mat-icon>add</mat-icon>
+              <button
+                mat-icon-button
+                color="primary"
+                class="quantity-button"
+                (click)="updateQuantity(item._id!, 1)"
+              >
+                <mat-icon>add_circle</mat-icon>
               </button>
             </div>
           </div>
         </div>
         <div class="item-actions">
-          <button mat-icon-button color="warn" (click)="removeFromCart(item._id!)">
+          <button
+            mat-icon-button
+            color="warn"
+            class="remove-item-button"
+            (click)="removeFromCart(item._id!)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </div>
       </mat-card>
-
       <mat-card class="cart-summary">
         <h3>Resumo do Pedido</h3>
-        <p>Total: <strong>{{ (cartTotal$ | async) | brazilianCurrency }}</strong></p>
-        
+        <div class="summary-row">
+          <span>Total</span>
+          <strong>{{ cartTotal$ | async | brazilianCurrency }}</strong>
+        </div>
         <div class="cart-actions">
-          <button mat-raised-button color="primary" (click)="proceedToPayment()" 
-                  [disabled]="(cartItems$ | async)?.length === 0">
-            <mat-icon>payment</mat-icon>
-            Finalizar Compra
-          </button>
-          
-          <button mat-button color="warn" (click)="clearCart()">
+          <button mat-button class="clear-cart-button" (click)="clearCart()">
             <mat-icon>delete_sweep</mat-icon>
             Limpar Carrinho
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            class="checkout-button"
+            (click)="proceedToPayment()"
+            [disabled]="(cartItems$ | async)?.length === 0"
+          >
+            <mat-icon>payment</mat-icon>
+            Finalizar Compra
           </button>
         </div>
       </mat-card>

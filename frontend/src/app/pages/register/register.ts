@@ -7,11 +7,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    RouterModule,
+  ],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -35,14 +44,14 @@ export class Register {
       const userData: RegisterRequest = {
         name: this.registerForm.value.name!,
         email: this.registerForm.value.email!,
-        password: this.registerForm.value.password!
+        password: this.registerForm.value.password!,
       };
 
       this.authService.register(userData).subscribe({
         next: (response) => {
           this.isLoading = false;
           this.snackBar.open('Conta criada com sucesso!', 'Fechar', { duration: 3000 });
-          
+
           // Redirecionar baseado no tipo de usuário
           if (response.data.user.isAdmin) {
             this.router.navigate(['/admin']);
@@ -58,7 +67,7 @@ export class Register {
             'Fechar',
             { duration: 5000 }
           );
-        }
+        },
       });
     }
   }

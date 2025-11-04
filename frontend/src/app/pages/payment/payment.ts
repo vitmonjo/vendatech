@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { PaymentService, PaymentRequest, PaymentCard } from '../../services/payment.service';
 import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
+import { BrazilianCurrencyPipe } from '../../pipes/brazilian-currency.pipe';
 
 @Component({
   selector: 'app-payment',
@@ -24,7 +25,8 @@ import { OrderService } from '../../services/order.service';
     MatButtonModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    BrazilianCurrencyPipe,
   ],
   templateUrl: './payment.html',
   styleUrl: './payment.css',
@@ -48,7 +50,7 @@ export class Payment implements OnInit {
     expiryMonth: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])$/)]],
     expiryYear: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
     cvv: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]],
-    cardHolderName: ['', [Validators.required, Validators.minLength(2)]]
+    cardHolderName: ['', [Validators.required, Validators.minLength(2)]],
   });
 
   ngOnInit(): void {
@@ -56,16 +58,20 @@ export class Payment implements OnInit {
   }
 
   loadCartData(): void {
-    this.cartService.cartItems$.subscribe(items => {
+    this.cartService.cartItems$.subscribe((items) => {
       this.cartItems = items;
-      
+
       if (this.cartItems.length === 0) {
-        this.snackBar.open('Carrinho vazio! Adicione produtos antes de finalizar a compra.', 'Fechar', { duration: 3000 });
+        this.snackBar.open(
+          'Carrinho vazio! Adicione produtos antes de finalizar a compra.',
+          'Fechar',
+          { duration: 3000 }
+        );
         this.router.navigate(['/cart']);
       }
     });
 
-    this.cartService.getCartTotal().subscribe(total => {
+    this.cartService.getCartTotal().subscribe((total) => {
       this.cartTotal = total;
     });
   }
@@ -87,14 +93,14 @@ export class Payment implements OnInit {
       this.isLoading = true;
 
       const formValue = this.paymentForm.value;
-      
+
       // Preparar dados do cartão
       const card: PaymentCard = {
         number: formValue.cardNumber!.replace(/\s/g, ''),
         expiryMonth: formValue.expiryMonth!,
         expiryYear: formValue.expiryYear!,
         cvv: formValue.cvv!,
-        holderName: formValue.cardHolderName!
+        holderName: formValue.cardHolderName!,
       };
 
       // Preparar dados do pagamento
@@ -103,18 +109,22 @@ export class Payment implements OnInit {
         customerCpf: formValue.customerCpf!.replace(/\D/g, ''),
         card: card,
         amount: this.cartTotal,
-        description: `Compra de ${this.cartItems.length} produto(s) - VendaTech`
+        description: `Compra de ${this.cartItems.length} produto(s) - VendaTech`,
       };
 
       // Validar dados antes do envio
       if (!this.paymentService.validateCard(card)) {
-        this.snackBar.open('Dados do cartão inválidos. Verifique as informações.', 'Fechar', { duration: 5000 });
+        this.snackBar.open('Dados do cartão inválidos. Verifique as informações.', 'Fechar', {
+          duration: 5000,
+        });
         this.isLoading = false;
         return;
       }
 
       if (!this.paymentService.validateCpf(paymentData.customerCpf)) {
-        this.snackBar.open('CPF inválido. Verifique o número informado.', 'Fechar', { duration: 5000 });
+        this.snackBar.open('CPF inválido. Verifique o número informado.', 'Fechar', {
+          duration: 5000,
+        });
         this.isLoading = false;
         return;
       }
@@ -127,7 +137,9 @@ export class Payment implements OnInit {
             this.createOrder(response.transactionId!);
           } else {
             this.isLoading = false;
-            this.snackBar.open(`Pagamento falhou: ${response.message}`, 'Fechar', { duration: 5000 });
+            this.snackBar.open(`Pagamento falhou: ${response.message}`, 'Fechar', {
+              duration: 5000,
+            });
           }
         },
         error: (error) => {
@@ -138,10 +150,12 @@ export class Payment implements OnInit {
             'Fechar',
             { duration: 5000 }
           );
-        }
+        },
       });
     } else {
-      this.snackBar.open('Por favor, preencha todos os campos corretamente.', 'Fechar', { duration: 3000 });
+      this.snackBar.open('Por favor, preencha todos os campos corretamente.', 'Fechar', {
+        duration: 3000,
+      });
     }
   }
 
@@ -151,39 +165,41 @@ export class Payment implements OnInit {
 
   private createOrder(transactionId: string): void {
     const orderData = {
-      items: this.cartItems.map(item => ({
+      items: this.cartItems.map((item) => ({
         productId: item._id,
         productName: item.name,
         productPrice: item.price,
         productImage: item.image,
-        quantity: item.quantity
+        quantity: item.quantity,
       })),
       totalAmount: this.cartTotal,
-      transactionId: transactionId
+      transactionId: transactionId,
     };
 
     this.orderService.createOrder(orderData).subscribe({
       next: (response) => {
         this.isLoading = false;
         this.snackBar.open('Pagamento realizado com sucesso!', 'Fechar', { duration: 5000 });
-        
+
         // Limpar carrinho
         this.cartService.clearCart();
-        
+
         // Redirecionar para página de sucesso
-        this.router.navigate(['/payment-success'], { 
-          queryParams: { 
+        this.router.navigate(['/payment-success'], {
+          queryParams: {
             transactionId: transactionId,
             amount: this.cartTotal,
-            orderId: response.data.order._id
-          } 
+            orderId: response.data.order._id,
+          },
         });
       },
       error: (error) => {
         this.isLoading = false;
         console.error('Erro ao criar pedido:', error);
-        this.snackBar.open('Erro ao finalizar pedido. Entre em contato com o suporte.', 'Fechar', { duration: 5000 });
-      }
+        this.snackBar.open('Erro ao finalizar pedido. Entre em contato com o suporte.', 'Fechar', {
+          duration: 5000,
+        });
+      },
     });
   }
 }

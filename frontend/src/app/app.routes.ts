@@ -30,5 +30,5 @@ export const routes: Routes = [
   { path: 'payment-success', component: PaymentSuccess, canActivate: [authGuard] },
   { path: 'orders', component: OrderHistory, canActivate: [authGuard] },
   { path: 'profile', component: Profile },
-  { path: '**', redirectTo: '' }, // Rota curinga para redirecionar para a home
+  { path: '**', redirectTo: '' },
 ];
