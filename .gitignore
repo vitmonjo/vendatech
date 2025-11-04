@@ -52,3 +52,6 @@ backend/uploads/
 # Frontend specific (already covered by Angular defaults)
 frontend/dist/
 frontend/.angular/
+
+# TrustPay reference project (not part of main app)
+trust-pay/
