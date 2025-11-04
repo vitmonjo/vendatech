@@ -60,35 +60,35 @@ export class PaymentService {
 
   /**
    * Valida os dados do cartão antes do envio
+   * Aceita qualquer número de cartão - validação será feita pelo gateway de pagamento
    * @param card Dados do cartão
    * @returns true se válido, false caso contrário
    */
   validateCard(card: PaymentCard): boolean {
-    // Validação básica do número do cartão (Luhn algorithm simplificado)
+    // Aceita qualquer número de cartão (validação será feita pelo TrustPay)
     const cardNumber = card.number.replace(/\s/g, '');
-    if (!/^\d{13,19}$/.test(cardNumber)) {
+    if (!cardNumber || cardNumber.length < 1) {
       return false;
     }
 
-    // Validação do CVV
-    if (!/^\d{3,4}$/.test(card.cvv)) {
+    // Validação básica do CVV (aceita qualquer número)
+    if (!card.cvv || card.cvv.trim().length < 1) {
       return false;
     }
 
-    // Validação do mês de expiração
+    // Validação básica do mês de expiração
     const month = parseInt(card.expiryMonth);
-    if (month < 1 || month > 12) {
+    if (!month || month < 1 || month > 12) {
       return false;
     }
 
-    // Validação do ano de expiração
-    const currentYear = new Date().getFullYear();
+    // Validação básica do ano de expiração
     const year = parseInt(card.expiryYear);
-    if (year < currentYear) {
+    if (!year || year < 1000) {
       return false;
     }
 
-    // Validação do nome do portador
+    // Validação básica do nome do portador
     if (!card.holderName || card.holderName.trim().length < 2) {
       return false;
     }

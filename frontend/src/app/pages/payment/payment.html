@@ -85,9 +85,6 @@
                 <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
                   Número do cartão é obrigatório
                 </mat-error>
-                <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('pattern')">
-                  Número do cartão inválido
-                </mat-error>
               </mat-form-field>
             </div>
 

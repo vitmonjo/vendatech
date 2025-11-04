@@ -47,10 +47,10 @@ export class Payment implements OnInit {
     customerName: ['', [Validators.required, Validators.minLength(2)]],
     customerCpf: ['', [Validators.required]],
     customerEmail: ['', [Validators.email]], // Opcional
-    cardNumber: ['', [Validators.required, Validators.pattern(/^\d{13,19}$/)]],
-    expiryMonth: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])$/)]],
-    expiryYear: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
-    cvv: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]],
+    cardNumber: ['', [Validators.required]],
+    expiryMonth: ['', [Validators.required]],
+    expiryYear: ['', [Validators.required]],
+    cvv: ['', [Validators.required]],
     cardHolderName: ['', [Validators.required, Validators.minLength(2)]],
   });
 
