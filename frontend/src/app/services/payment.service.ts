@@ -14,9 +14,11 @@ export interface PaymentCard {
 export interface PaymentRequest {
   customerName: string;
   customerCpf: string;
+  customerEmail?: string; // Opcional - backend gera se não fornecido
   card: PaymentCard;
   amount: number;
   description?: string;
+  orderId?: string; // Opcional - backend gera se não fornecido
 }
 
 export interface PaymentResponse {

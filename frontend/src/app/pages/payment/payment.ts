@@ -46,6 +46,7 @@ export class Payment implements OnInit {
   paymentForm = this.fb.group({
     customerName: ['', [Validators.required, Validators.minLength(2)]],
     customerCpf: ['', [Validators.required]],
+    customerEmail: ['', [Validators.email]], // Opcional
     cardNumber: ['', [Validators.required, Validators.pattern(/^\d{13,19}$/)]],
     expiryMonth: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])$/)]],
     expiryYear: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
@@ -107,6 +108,7 @@ export class Payment implements OnInit {
       const paymentData: PaymentRequest = {
         customerName: formValue.customerName!,
         customerCpf: formValue.customerCpf!.replace(/\D/g, ''),
+        customerEmail: formValue.customerEmail || undefined, // Opcional
         card: card,
         amount: this.cartTotal,
         description: `Compra de ${this.cartItems.length} produto(s) - VendaTech`,

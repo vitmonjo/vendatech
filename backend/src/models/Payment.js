@@ -30,6 +30,14 @@ const paymentSchema = new mongoose.Schema({
     unique: true,
     sparse: true // Permite null/undefined
   },
+  trustpayTransactionId: {
+    type: String,
+    sparse: true
+  },
+  trustpayOrderId: {
+    type: String,
+    sparse: true
+  },
   error: {
     type: String,
     trim: true
