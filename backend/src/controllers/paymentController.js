@@ -219,6 +219,7 @@ const processPayment = async (req, res) => {
     }
 
     // Validação do valor - aceita número ou string
+    // Frontend SEMPRE envia valores em REAIS (decimal)
     console.log('--- [PAYMENT] Amount recebido do frontend (tipo, valor):', typeof amount, amount);
     
     let amountValue = amount;
@@ -226,20 +227,6 @@ const processPayment = async (req, res) => {
       amountValue = parseFloat(String(amountValue).replace(',', '.'));
     }
     amountValue = Number(amountValue);
-
-    // Verificar se o valor já está em centavos
-    // Se o valor for maior que 1000 e inteiro, provavelmente já está em centavos
-    // Exemplo: 15999 (centavos) vs 159.99 (reais)
-    // Mas se tiver casas decimais, definitivamente está em reais
-    const isLikelyInCents = amountValue > 1000 && amountValue % 1 === 0;
-    
-    if (isLikelyInCents) {
-      console.log('--- [PAYMENT] AVISO: Valor parece estar em centavos, não multiplicando por 100');
-      console.log('--- [PAYMENT] Se isso estiver errado, ajuste o frontend para enviar em reais');
-      // Manter como está, mas não multiplicar
-    } else {
-      console.log('--- [PAYMENT] Valor em reais, será convertido para centavos');
-    }
 
     if (isNaN(amountValue) || amountValue <= 0) {
       return res.status(400).json({
