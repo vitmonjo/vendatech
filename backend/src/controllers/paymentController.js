@@ -226,9 +226,6 @@ const processPayment = async (req, res) => {
       });
     }
 
-    // Atualizar amount para o valor processado
-    amount = amountValue;
-
     // Validação dos dados do cartão
     if (!card.number || !card.expiryMonth || !card.expiryYear || !card.cvv || !card.holderName) {
       return res.status(400).json({
@@ -253,9 +250,9 @@ const processPayment = async (req, res) => {
     const callbackUrl = `${process.env.BACKEND_URL || process.env.API_URL || 'http://localhost:5000/api'}/payment/webhook`;
     const returnUrl = `${baseUrl}/payment-success`;
 
-    // amount já foi processado acima (linha 230), então usamos amount diretamente
-    console.log('--- [PAYMENT] Amount processado (em reais):', amount);
-    console.log('--- [PAYMENT] Amount em centavos (será enviado):', amount * 100);
+    // amount já foi processado acima, então usamos amountValue diretamente
+    console.log('--- [PAYMENT] Amount processado (em reais):', amountValue);
+    console.log('--- [PAYMENT] Amount em centavos (será enviado):', amountValue * 100);
 
     // Passo 1: Criar Payment Intent
     let paymentIntent;
@@ -343,7 +340,7 @@ const processPayment = async (req, res) => {
     const paymentRecord = new Payment({
       customerName,
       customerCpf,
-      amount,
+      amount: amountValue,
       description,
       status: status,
       transactionId: transactionId,

@@ -56,6 +56,49 @@ export class Payment implements OnInit {
 
   ngOnInit(): void {
     this.loadCartData();
+    this.loadSavedPaymentData();
+  }
+
+  loadSavedPaymentData(): void {
+    try {
+      const savedData = localStorage.getItem('paymentFormData');
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        // Preencher formulário com dados salvos (exceto CVV por segurança)
+        this.paymentForm.patchValue({
+          customerName: data.customerName || '',
+          customerCpf: data.customerCpf || '',
+          customerEmail: data.customerEmail || '',
+          cardNumber: data.cardNumber || '',
+          expiryMonth: data.expiryMonth || '',
+          expiryYear: data.expiryYear || '',
+          cardHolderName: data.cardHolderName || '',
+          // CVV não é salvo por segurança
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao carregar dados salvos:', error);
+    }
+  }
+
+  savePaymentData(): void {
+    try {
+      const formValue = this.paymentForm.value;
+      // Salvar dados (exceto CVV por segurança)
+      const dataToSave = {
+        customerName: formValue.customerName || '',
+        customerCpf: formValue.customerCpf || '',
+        customerEmail: formValue.customerEmail || '',
+        cardNumber: formValue.cardNumber || '',
+        expiryMonth: formValue.expiryMonth || '',
+        expiryYear: formValue.expiryYear || '',
+        cardHolderName: formValue.cardHolderName || '',
+        // CVV não é salvo por segurança
+      };
+      localStorage.setItem('paymentFormData', JSON.stringify(dataToSave));
+    } catch (error) {
+      console.error('Erro ao salvar dados:', error);
+    }
   }
 
   loadCartData(): void {
@@ -130,6 +173,9 @@ export class Payment implements OnInit {
         this.isLoading = false;
         return;
       }
+
+      // Salvar dados do formulário antes de processar
+      this.savePaymentData();
 
       // Processar pagamento
       this.paymentService.processPayment(paymentData).subscribe({
