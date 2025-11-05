@@ -123,7 +123,7 @@
 - Status de pedidos (Backend).
 - Integração com pagamentos (Backend).
 
-### ✅ FUNCIONALIDADES EM DESENVOLVIMENTO (não iniciado o desenvolvimento)
+### 🔄 FUNCIONALIDADES EM DESENVOLVIMENTO (não iniciado o desenvolvimento)
 - Chat entre usuários
 - Sistema de mensagens
 - Alertas de preço
@@ -251,4 +251,5 @@
 **Pedro:** Frontend (Funcionalidades & Design System)  
 **João:** Backend (APIs & Pagamentos)  
 **Francisco:** Backend (Banco de Dados & Segurança)
+
 
