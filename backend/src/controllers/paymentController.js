@@ -230,12 +230,16 @@ const processPayment = async (req, res) => {
     }
     amountValue = Number(amountValue);
 
-    // Verificar se o valor já está em centavos (maior que 1000 sugere que pode estar em centavos)
-    // Se o valor for maior que 1000, provavelmente já está em centavos
+    // Verificar se o valor já está em centavos
+    // Se o valor for maior que 1000 e inteiro, provavelmente já está em centavos
     // Exemplo: 15999 (centavos) vs 159.99 (reais)
-    if (amountValue > 1000 && amountValue % 1 === 0) {
+    // Mas se tiver casas decimais, definitivamente está em reais
+    const isLikelyInCents = amountValue > 1000 && amountValue % 1 === 0;
+    
+    if (isLikelyInCents) {
       console.log('--- [PAYMENT] AVISO: Valor parece estar em centavos, não multiplicando por 100');
-      // Já está em centavos, não multiplicar
+      console.log('--- [PAYMENT] Se isso estiver errado, ajuste o frontend para enviar em reais');
+      // Manter como está, mas não multiplicar
     } else {
       console.log('--- [PAYMENT] Valor em reais, será convertido para centavos');
     }
@@ -273,8 +277,17 @@ const processPayment = async (req, res) => {
     const returnUrl = `${baseUrl}/payment-success`;
 
     // amount já foi processado acima, então usamos amountValue diretamente
-    console.log('--- [PAYMENT] Amount processado (em reais):', amountValue);
-    console.log('--- [PAYMENT] Amount em centavos (será enviado):', amountValue * 100);
+    console.log('--- [PAYMENT] Amount processado:', amountValue);
+    
+    // Se o valor já parece estar em centavos (valor > 1000 e inteiro), converter para reais
+    // createPaymentIntent espera receber em REAIS e converte para centavos internamente
+    let amountInReais = amountValue;
+    if (amountValue > 1000 && amountValue % 1 === 0) {
+      console.log('--- [PAYMENT] Valor está em centavos, convertendo para reais:', amountValue, '->', amountValue / 100);
+      amountInReais = amountValue / 100;
+    } else {
+      console.log('--- [PAYMENT] Valor já está em reais, usando diretamente:', amountValue);
+    }
 
     // Passo 1: Criar Payment Intent
     let paymentIntent;
@@ -282,7 +295,7 @@ const processPayment = async (req, res) => {
       paymentIntent = await createPaymentIntent({
         customerName,
         customerEmail,
-        amount: amountValue, // Valor em reais (decimal)
+        amount: amountInReais, // Sempre enviar em reais para createPaymentIntent
         orderId: orderId || `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         callbackUrl,
         returnUrl,
