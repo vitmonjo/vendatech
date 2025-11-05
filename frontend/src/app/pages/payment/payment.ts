@@ -57,6 +57,15 @@ export class Payment implements OnInit {
   ngOnInit(): void {
     this.loadCartData();
     this.loadSavedPaymentData();
+    
+    // Salvar dados automaticamente quando o formulário for alterado
+    this.paymentForm.valueChanges.subscribe(() => {
+      // Debounce: salvar após 1 segundo sem digitar
+      clearTimeout((this as any).saveTimeout);
+      (this as any).saveTimeout = setTimeout(() => {
+        this.savePaymentData();
+      }, 1000);
+    });
   }
 
   loadSavedPaymentData(): void {
