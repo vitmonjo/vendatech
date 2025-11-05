@@ -20,9 +20,18 @@ const createPaymentIntent = async (paymentData) => {
     ? customerEmail.trim() 
     : `${customerName.toLowerCase().replace(/\s/g, '')}@example.com`;
 
+  // Garantir que amount seja tratado como número decimal e convertido para centavos
+  let amountValue = amount;
+  if (typeof amountValue === 'string') {
+    // Se for string, substituir vírgula por ponto e converter para número
+    amountValue = parseFloat(String(amountValue).replace(',', '.'));
+  }
+  // Converter para centavos (multiplicar por 100 e arredondar)
+  const amountInCents = Number(Math.round(Number(amountValue) * 100));
+
   const intentPayload = {
     orderId: orderId || `ORDER-${Date.now()}`,
-    amount: Number(Math.round(amount * 100)), // Converte para centavos (inteiro)
+    amount: amountInCents, // Valor em centavos (inteiro)
     currency: 'BRL',
     paymentMethod: 'credit_card',
     customer: {
@@ -202,14 +211,23 @@ const processPayment = async (req, res) => {
       });
     }
 
-    // Validação do valor
-    if (amount <= 0) {
+    // Validação do valor - aceita número ou string
+    let amountValue = amount;
+    if (typeof amountValue === 'string') {
+      amountValue = parseFloat(String(amountValue).replace(',', '.'));
+    }
+    amountValue = Number(amountValue);
+
+    if (isNaN(amountValue) || amountValue <= 0) {
       return res.status(400).json({
         success: false,
         message: 'Valor deve ser maior que zero',
         error: 'INVALID_AMOUNT'
       });
     }
+
+    // Atualizar amount para o valor processado
+    amount = amountValue;
 
     // Validação dos dados do cartão
     if (!card.number || !card.expiryMonth || !card.expiryYear || !card.cvv || !card.holderName) {
@@ -235,13 +253,29 @@ const processPayment = async (req, res) => {
     const callbackUrl = `${process.env.BACKEND_URL || process.env.API_URL || 'http://localhost:5000/api'}/payment/webhook`;
     const returnUrl = `${baseUrl}/payment-success`;
 
+    // Garantir que amount seja tratado corretamente (pode vir como número ou string)
+    let amountValue = amount;
+    if (typeof amountValue === 'string') {
+      // Se for string, substituir vírgula por ponto e converter para número
+      amountValue = parseFloat(String(amountValue).replace(',', '.'));
+    }
+    amountValue = Number(amountValue); // Garantir que seja número
+
+    if (isNaN(amountValue) || amountValue <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Valor inválido',
+        error: 'INVALID_AMOUNT'
+      });
+    }
+
     // Passo 1: Criar Payment Intent
     let paymentIntent;
     try {
       paymentIntent = await createPaymentIntent({
         customerName,
         customerEmail,
-        amount,
+        amount: amountValue, // Valor em reais (decimal)
         orderId: orderId || `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         callbackUrl,
         returnUrl,
