@@ -20,8 +20,8 @@ const createPaymentIntent = async (paymentData) => {
     ? customerEmail.trim() 
     : `${customerName.toLowerCase().replace(/\s/g, '')}@example.com`;
 
-  // Garantir que amount seja tratado como número decimal e convertido para centavos
-  // createPaymentIntent SEMPRE recebe valor em REAIS (decimal) e converte para centavos
+  // Garantir que amount seja tratado como número decimal
+  // TrustPay API espera receber valor em REAIS (decimal), não em centavos
   let amountValue = amount;
   if (typeof amountValue === 'string') {
     // Se for string, substituir vírgula por ponto e converter para número
@@ -30,15 +30,11 @@ const createPaymentIntent = async (paymentData) => {
   amountValue = Number(amountValue);
   
   console.log('--- [INTENT] Valor recebido (reais):', amountValue);
-  
-  // SEMPRE converter reais para centavos (multiplicar por 100 e arredondar)
-  // Não fazer detecção automática, pois o frontend sempre envia em reais
-  const amountInCents = Number(Math.round(amountValue * 100));
-  console.log('--- [INTENT] Valor convertido para centavos:', amountValue, '->', amountInCents);
+  console.log('--- [INTENT] Valor será enviado ao TrustPay em REAIS (não centavos):', amountValue);
 
   const intentPayload = {
     orderId: orderId || `ORDER-${Date.now()}`,
-    amount: amountInCents, // Valor em centavos (inteiro)
+    amount: amountValue, // Valor em REAIS (decimal) - TrustPay espera receber assim
     currency: 'BRL',
     paymentMethod: 'credit_card',
     customer: {
