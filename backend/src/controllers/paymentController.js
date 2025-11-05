@@ -253,25 +253,9 @@ const processPayment = async (req, res) => {
     const callbackUrl = `${process.env.BACKEND_URL || process.env.API_URL || 'http://localhost:5000/api'}/payment/webhook`;
     const returnUrl = `${baseUrl}/payment-success`;
 
-    // Garantir que amount seja tratado corretamente (pode vir como número ou string)
-    console.log('--- [PAYMENT] Amount recebido (tipo, valor):', typeof amount, amount);
-    let amountValue = amount;
-    if (typeof amountValue === 'string') {
-      // Se for string, substituir vírgula por ponto e converter para número
-      amountValue = parseFloat(String(amountValue).replace(',', '.'));
-    }
-    amountValue = Number(amountValue); // Garantir que seja número
-    
-    console.log('--- [PAYMENT] Amount processado (em reais):', amountValue);
-    console.log('--- [PAYMENT] Amount em centavos (será enviado):', amountValue * 100);
-
-    if (isNaN(amountValue) || amountValue <= 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Valor inválido',
-        error: 'INVALID_AMOUNT'
-      });
-    }
+    // amount já foi processado acima (linha 230), então usamos amount diretamente
+    console.log('--- [PAYMENT] Amount processado (em reais):', amount);
+    console.log('--- [PAYMENT] Amount em centavos (será enviado):', amount * 100);
 
     // Passo 1: Criar Payment Intent
     let paymentIntent;
