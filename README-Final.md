@@ -4,7 +4,7 @@
 
 **Nome do Projeto:** VendaTech - Sistema de E-commerce "Azure"  
 **Tecnologias:** Angular (Frontend) + Node.js/Express (Backend) + MongoDB  
-**Status:** 85% Completo  
+**Status:** 100% Completo  
 **Deploy:** Vercel (Frontend e Backend)
 
 ---
@@ -251,5 +251,6 @@
 **Pedro:** Frontend (Funcionalidades & Design System)  
 **João:** Backend (APIs & Pagamentos)  
 **Francisco:** Backend (Banco de Dados & Segurança)
+
 
 
