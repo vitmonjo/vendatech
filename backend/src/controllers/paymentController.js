@@ -371,11 +371,11 @@ const processPayment = async (req, res) => {
       ? (captureResult?.data?.transaction?.bankTransactionId || trustpayTransactionId)
       : undefined;
 
-    // Salvar o registro do pagamento no banco
+    // Salvar o registro do pagamento no banco (sempre em reais)
     const paymentRecord = new Payment({
       customerName,
       customerCpf,
-      amount: amountValue,
+      amount: amountInReais, // Salvar em reais no banco
       description,
       status: status,
       transactionId: transactionId,
