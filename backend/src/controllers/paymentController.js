@@ -364,7 +364,7 @@ const processPayment = async (req, res) => {
     const paymentRecord = new Payment({
       customerName,
       customerCpf,
-      amount: amountInReais, // Salvar em reais no banco
+      amount: amountValue, // Salvar em reais no banco
       description,
       status: status,
       transactionId: transactionId,
