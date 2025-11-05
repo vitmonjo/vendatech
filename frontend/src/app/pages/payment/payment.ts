@@ -157,12 +157,16 @@ export class Payment implements OnInit {
       };
 
       // Preparar dados do pagamento
+      // Log para debug: verificar valor do carrinho
+      console.log('--- [FRONTEND] Cart Total (valor bruto):', this.cartTotal);
+      console.log('--- [FRONTEND] Cart Total (tipo):', typeof this.cartTotal);
+      
       const paymentData: PaymentRequest = {
         customerName: formValue.customerName!,
         customerCpf: formValue.customerCpf!.replace(/\D/g, ''),
         customerEmail: formValue.customerEmail || undefined, // Opcional
         card: card,
-        amount: this.cartTotal,
+        amount: this.cartTotal, // Valor em reais (decimal)
         description: `Compra de ${this.cartItems.length} produto(s) - VendaTech`,
       };
 

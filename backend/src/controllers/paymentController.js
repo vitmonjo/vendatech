@@ -26,8 +26,18 @@ const createPaymentIntent = async (paymentData) => {
     // Se for string, substituir vírgula por ponto e converter para número
     amountValue = parseFloat(String(amountValue).replace(',', '.'));
   }
-  // Converter para centavos (multiplicar por 100 e arredondar)
-  const amountInCents = Number(Math.round(Number(amountValue) * 100));
+  amountValue = Number(amountValue);
+  
+  // Verificar se o valor já está em centavos (se for maior que 1000 e inteiro, provavelmente já está)
+  let amountInCents;
+  if (amountValue > 1000 && amountValue % 1 === 0) {
+    console.log('--- [INTENT] Valor já está em centavos:', amountValue);
+    amountInCents = Number(Math.round(amountValue));
+  } else {
+    // Converter para centavos (multiplicar por 100 e arredondar)
+    amountInCents = Number(Math.round(amountValue * 100));
+    console.log('--- [INTENT] Valor convertido de reais para centavos:', amountValue, '->', amountInCents);
+  }
 
   const intentPayload = {
     orderId: orderId || `ORDER-${Date.now()}`,
@@ -212,11 +222,23 @@ const processPayment = async (req, res) => {
     }
 
     // Validação do valor - aceita número ou string
+    console.log('--- [PAYMENT] Amount recebido do frontend (tipo, valor):', typeof amount, amount);
+    
     let amountValue = amount;
     if (typeof amountValue === 'string') {
       amountValue = parseFloat(String(amountValue).replace(',', '.'));
     }
     amountValue = Number(amountValue);
+
+    // Verificar se o valor já está em centavos (maior que 1000 sugere que pode estar em centavos)
+    // Se o valor for maior que 1000, provavelmente já está em centavos
+    // Exemplo: 15999 (centavos) vs 159.99 (reais)
+    if (amountValue > 1000 && amountValue % 1 === 0) {
+      console.log('--- [PAYMENT] AVISO: Valor parece estar em centavos, não multiplicando por 100');
+      // Já está em centavos, não multiplicar
+    } else {
+      console.log('--- [PAYMENT] Valor em reais, será convertido para centavos');
+    }
 
     if (isNaN(amountValue) || amountValue <= 0) {
       return res.status(400).json({
