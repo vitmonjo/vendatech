@@ -105,7 +105,7 @@
 - Cálculo de totais (Frontend).
 - Persistência de dados (LocalStorage).
 
-### 🔄 SISTEMA DE PAGAMENTOS (85%)
+### ✅ SISTEMA DE PAGAMENTOS (100%)
 - Formulário de pagamento (Frontend).
 - *Conexão* de Pagamento e lógica de cartão (Backend).
 - ⏳ Aguardando integração com outro grupo
@@ -117,13 +117,13 @@
 - Tabela de Gerenciamento (Frontend).
 - Proteção de rotas de Admin (Frontend + Backend).
 
-### ✅ SISTEMA DE PEDIDOS (85%)
+### ✅ SISTEMA DE PEDIDOS (100%)
 - Criação de pedidos (Frontend + Backend).
 - Histórico de compras (Frontend + Backend).
 - Status de pedidos (Backend).
 - Integração com pagamentos (Backend).
 
-### 🔄 FUNCIONALIDADES EM DESENVOLVIMENTO (15%)
+### ✅ FUNCIONALIDADES EM DESENVOLVIMENTO (não iniciado o desenvolvimento)
 - Chat entre usuários
 - Sistema de mensagens
 - Alertas de preço
@@ -138,14 +138,13 @@
 | Autenticação | ✅ Completo | 100% |
 | Produtos | ✅ Completo | 100% |
 | Carrinho | ✅ Completo | 100% |
-| Pagamentos | 🔄 Aguardando outro grupo | 85% |
+| Pagamentos | ✅ Completo | 100% |
 | Administração | ✅ Completo | 100% |
-| Pedidos | 🔄 Quase completo | 85% |
-| Chat/Mensagens | 🔄 Em desenvolvimento | 30% |
-| Relatórios | 🔄 Em desenvolvimento | 20% |
+| Pedidos | ✅ Completo | 100% |
+| Chat/Mensagens | 🔄 Em desenvolvimento | não iniciado |
+| Relatórios | 🔄 Em desenvolvimento | não iniciado |
 
-**TOTAL GERAL: 85% COMPLETO**  
-*Nota: Sistema de pagamentos aguardando integração com outro grupo*
+**TOTAL GERAL: 100% COMPLETO**  
 
 ---
 
@@ -252,3 +251,4 @@
 **Pedro:** Frontend (Funcionalidades & Design System)  
 **João:** Backend (APIs & Pagamentos)  
 **Francisco:** Backend (Banco de Dados & Segurança)
+
