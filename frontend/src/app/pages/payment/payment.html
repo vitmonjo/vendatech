@@ -111,6 +111,13 @@
                 </mat-error>
               </mat-form-field>
 
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>CVV</mat-label>
+                <input matInput formControlName="cvv" placeholder="000" maxlength="4" />
+                <mat-error *ngIf="paymentForm.get('cvv')?.hasError('required')">
+                  CVV é obrigatório
+                </mat-error>
+              </mat-form-field>
             </div>
 
             <div class="form-row">

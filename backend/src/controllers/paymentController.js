@@ -91,11 +91,12 @@ const createPaymentIntent = async (paymentData) => {
  * @returns {Promise<Object>} Resposta da captura
  */
 const capturePayment = async (transactionId, cardData) => {
-  // Garantir formato correto dos dados (CVV não é utilizado)
+  // Garantir formato correto dos dados
   const cardNumber = String(cardData.number || '').replace(/\s/g, '');
   const cardHolderName = String(cardData.holderName || '').trim().toUpperCase();
   const expiryMonth = String(cardData.expiryMonth || '').trim();
   const expiryYear = String(cardData.expiryYear || '').trim();
+  const cvv = String(cardData.cvv || '').trim();
 
   // Formatar mês (garantir 2 dígitos)
   const expirationMonth = expiryMonth.padStart(2, '0');
@@ -114,7 +115,7 @@ const capturePayment = async (transactionId, cardData) => {
     cardHolderName: cardHolderName,
     expirationMonth: expirationMonth,
     expirationYear: expirationYear,
-    // CVV não é necessário no TrustPay
+    cvv: cvv,
     intentId: transactionId // TrustPay pode exigir esse campo no corpo
   };
 
@@ -130,6 +131,9 @@ const capturePayment = async (transactionId, cardData) => {
   }
   if (!expirationYear || expirationYear.length !== 4) {
     throw new Error('Ano de expiração inválido');
+  }
+  if (!cvv || cvv.length < 3) {
+    throw new Error('CVV inválido');
   }
 
   try {
@@ -207,8 +211,8 @@ const processPayment = async (req, res) => {
       });
     }
 
-    // Validação dos dados do cartão (CVV não é necessário)
-    if (!card.number || !card.expiryMonth || !card.expiryYear || !card.holderName) {
+    // Validação dos dados do cartão
+    if (!card.number || !card.expiryMonth || !card.expiryYear || !card.cvv || !card.holderName) {
       return res.status(400).json({
         success: false,
         message: 'Dados do cartão incompletos',

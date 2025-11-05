@@ -7,7 +7,7 @@ export interface PaymentCard {
   number: string;
   expiryMonth: string;
   expiryYear: string;
-  cvv?: string; // Opcional - não utilizado no TrustPay
+  cvv: string;
   holderName: string;
 }
 
@@ -71,7 +71,10 @@ export class PaymentService {
       return false;
     }
 
-    // CVV não é utilizado no TrustPay - removido da validação
+    // Validação básica do CVV
+    if (!card.cvv || card.cvv.trim().length < 3) {
+      return false;
+    }
 
     // Validação básica do mês de expiração
     const month = parseInt(card.expiryMonth);
