@@ -11,18 +11,11 @@
       >
     </mat-form-field>
 
-    <div class="row">
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>Validade</mat-label>
-        <input matInput formControlName="expiry" placeholder="MM/AA" />
-        <mat-error *ngIf="paymentForm.get('expiry')?.invalid">Formato MM/AA.</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="half-width">
-        <mat-label>CVV</mat-label>
-        <input matInput formControlName="cvv" placeholder="123" />
-        <mat-error *ngIf="paymentForm.get('cvv')?.invalid">CVV de 3 dígitos.</mat-error>
-      </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Validade</mat-label>
+      <input matInput formControlName="expiry" placeholder="MM/AA" />
+      <mat-error *ngIf="paymentForm.get('expiry')?.invalid">Formato MM/AA.</mat-error>
+    </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>

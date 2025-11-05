@@ -50,7 +50,6 @@ export class Payment implements OnInit {
     cardNumber: ['', [Validators.required]],
     expiryMonth: ['', [Validators.required]],
     expiryYear: ['', [Validators.required]],
-    cvv: ['', [Validators.required]],
     cardHolderName: ['', [Validators.required, Validators.minLength(2)]],
   });
 
@@ -100,7 +99,7 @@ export class Payment implements OnInit {
         number: formValue.cardNumber!.replace(/\s/g, ''),
         expiryMonth: formValue.expiryMonth!,
         expiryYear: formValue.expiryYear!,
-        cvv: formValue.cvv!,
+        cvv: '', // Não utilizado no TrustPay
         holderName: formValue.cardHolderName!,
       };
 

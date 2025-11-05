@@ -32,7 +32,7 @@ export class PaymentDialog implements OnInit {
   paymentForm = this.fb.group({
     cardNumber: ['', [Validators.required, Validators.pattern('[0-9]{16}')]],
     expiry: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-2])\\/[0-9]{2}')]],
-    cvv: ['', [Validators.required, Validators.pattern('[0-9]{3}')]],
+    // CVV não é utilizado no TrustPay
   });
 
   constructor() {}

@@ -91,14 +91,46 @@ const createPaymentIntent = async (paymentData) => {
  * @returns {Promise<Object>} Resposta da captura
  */
 const capturePayment = async (transactionId, cardData) => {
+  // Garantir formato correto dos dados (CVV não é utilizado)
+  const cardNumber = String(cardData.number || '').replace(/\s/g, '');
+  const cardHolderName = String(cardData.holderName || '').trim().toUpperCase();
+  const expiryMonth = String(cardData.expiryMonth || '').trim();
+  const expiryYear = String(cardData.expiryYear || '').trim();
+
+  // Formatar mês (garantir 2 dígitos)
+  const expirationMonth = expiryMonth.padStart(2, '0');
+  
+  // Formatar ano (garantir 4 dígitos)
+  let expirationYear = expiryYear;
+  if (expiryYear.length === 2) {
+    expirationYear = `20${expiryYear}`;
+  } else if (expiryYear.length !== 4) {
+    // Se não for 2 nem 4 dígitos, assumir que é ano de 2 dígitos
+    expirationYear = `20${expiryYear.padStart(2, '0')}`;
+  }
+
   const capturePayload = {
-    cardNumber: cardData.number.replace(/\s/g, ''),
-    cardHolderName: cardData.holderName.toUpperCase(),
-    expirationMonth: cardData.expiryMonth.padStart(2, '0'),
-    expirationYear: cardData.expiryYear.length === 2 ? `20${cardData.expiryYear}` : cardData.expiryYear,
-    cvv: cardData.cvv,
+    cardNumber: cardNumber,
+    cardHolderName: cardHolderName,
+    expirationMonth: expirationMonth,
+    expirationYear: expirationYear,
+    // CVV não é necessário no TrustPay
     intentId: transactionId // TrustPay pode exigir esse campo no corpo
   };
+
+  // Validar dados antes de enviar
+  if (!cardNumber || cardNumber.length < 13) {
+    throw new Error('Número do cartão inválido');
+  }
+  if (!cardHolderName || cardHolderName.length < 2) {
+    throw new Error('Nome do portador inválido');
+  }
+  if (!expirationMonth || expirationMonth.length !== 2 || parseInt(expirationMonth) < 1 || parseInt(expirationMonth) > 12) {
+    throw new Error('Mês de expiração inválido');
+  }
+  if (!expirationYear || expirationYear.length !== 4) {
+    throw new Error('Ano de expiração inválido');
+  }
 
   try {
     const method = 'POST';
@@ -108,7 +140,8 @@ const capturePayment = async (transactionId, cardData) => {
     const signatureBase = `${method}\n${path}\n${timestamp}\n${rawBody}`;
     const signature = crypto.createHmac('sha256', TRUSTPAY_MERCHANT_SECRET).update(signatureBase).digest('hex');
 
-    console.log('--- [CAPTURE] Requisição para TrustPay:', JSON.stringify(capturePayload, null, 2));
+    console.log('--- [CAPTURE] Dados recebidos do frontend:', JSON.stringify(cardData, null, 2));
+    console.log('--- [CAPTURE] Payload formatado para TrustPay:', JSON.stringify(capturePayload, null, 2));
 
     const response = await axios.post(
       `${TRUSTPAY_API_URL}${path}`,
@@ -174,8 +207,8 @@ const processPayment = async (req, res) => {
       });
     }
 
-    // Validação dos dados do cartão
-    if (!card.number || !card.expiryMonth || !card.expiryYear || !card.cvv || !card.holderName) {
+    // Validação dos dados do cartão (CVV não é necessário)
+    if (!card.number || !card.expiryMonth || !card.expiryYear || !card.holderName) {
       return res.status(400).json({
         success: false,
         message: 'Dados do cartão incompletos',
@@ -257,7 +290,20 @@ const processPayment = async (req, res) => {
     const trustpayTransactionId = paymentIntent.data.id || paymentIntent.data._id || paymentIntent.id;
 
     // Passo 2: Capturar o pagamento
-    const captureResult = await capturePayment(trustpayTransactionId, card);
+    console.log('--- [PAYMENT] Dados do cartão recebidos:', JSON.stringify(card, null, 2));
+    console.log('--- [PAYMENT] Transaction ID:', trustpayTransactionId);
+    
+    let captureResult;
+    try {
+      captureResult = await capturePayment(trustpayTransactionId, card);
+    } catch (error) {
+      console.error('--- [PAYMENT] Erro ao chamar capturePayment:', error.message);
+      return res.status(400).json({
+        success: false,
+        message: error.message || 'Erro ao processar dados do cartão',
+        error: 'CARD_DATA_ERROR'
+      });
+    }
 
     // Determinar status final - verifica múltiplas possibilidades de resposta
     const captureStatus = captureResult?.data?.transaction?.status || captureResult?.data?.status || captureResult?.status;
